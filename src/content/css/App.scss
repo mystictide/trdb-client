@@ -1,0 +1,511 @@
+@import "./normalize.css";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap");
+
+$font-mont: "Montserrat", sans-serif;
+$font-sans: sans-serif;
+$bg-main: #1e442b;
+$bg-darker: #143620;
+$bg-lighter: #85e97a;
+$main-color: #d3d0cb;
+$flavor-color: #ffc18e;
+$num-colors: 100;
+
+@mixin bg-gradient {
+    background-repeat-x: repeat;
+    background-repeat-y: no-repeat;
+    background-color: $bg-darker;
+    background-image: linear-gradient(180deg, $bg-main 0, $bg-main 250px, $bg-darker 251px);
+    background-position: 0 0;
+}
+
+@mixin transition {
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease;
+}
+
+@mixin no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    padding-inline-start: 0;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+a {
+    color: $main-color;
+    text-decoration: none;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    color: $main-color;
+    font-family: $font-mont;
+    @include bg-gradient();
+}
+
+#root {
+    height: 100%;
+    width: 100%;
+}
+
+.gnr-button {
+    font-size: 2rem;
+    border: 1px solid $bg-darker;
+    border-radius: 333px;
+    background-color: #1db954;
+    color: $bg-darker;
+    padding: 10px 25px;
+    cursor: pointer;
+    @include transition();
+    &:hover {
+        font-size: 2.2rem;
+        border: 1px solid $bg-lighter;
+    }
+    &:active {
+        position: relative;
+        top: 1px;
+        border: 1px solid $bg-lighter;
+    }
+}
+
+.page-container {
+    width: 100%;
+    position: relative;
+    min-height: 100vh;
+
+    .loading {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    header {
+        height: 70px;
+        position: relative;
+        background-color: $bg-main;
+
+        nav {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+
+            .logo {
+                background-image: url(../img/logo/logo.png);
+                background-repeat: no-repeat;
+                background-size: contain;
+                height: 70px;
+                width: 70px;
+                opacity: 0.5;
+                cursor: pointer;
+                @include transition();
+                &:hover {
+                    opacity: 1;
+                }
+            }
+            .main-nav {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                ul {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    column-gap: 10px;
+                    svg {
+                        padding-top: 5px;
+                        width: 1.2rem;
+                        height: 100%;
+                    }
+
+                    button {
+                        cursor: pointer;
+                        color: $main-color;
+                        border: none;
+                        background: none;
+                    }
+                }
+            }
+        }
+    }
+
+    .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 500px;
+        height: 100%;
+        padding: 30px 0;
+        background: #14181c url(../img/bg/bg-main.png) 0 -1px repeat-x;
+
+        .greetings {
+            width: 75%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            row-gap: 35px;
+
+            .message {
+                h1 {
+                    font-size: 2.2vmax;
+                }
+                h5 {
+                    text-align: center;
+                }
+            }
+            .functions {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+
+                a {
+                    cursor: pointer;
+                    font-size: 1.3rem;
+                    padding: 10px 20px;
+                    border: 1px solid $bg-main;
+                    border-radius: 5px;
+                    background: none;
+                    color: $bg-lighter;
+                    opacity: 0.8;
+                    @include transition();
+
+                    &:hover {
+                        color: $bg-lighter;
+                        border-color: $bg-lighter;
+                        opacity: 1;
+                    }
+                    &:active {
+                        position: relative;
+                        bottom: 2px;
+                        border-color: $bg-darker;
+                    }
+                }
+
+                a.min {
+                    position: relative;
+                    border: none;
+                    align-self: flex-end;
+                    padding: 10px;
+                    font-size: 0.7rem;
+                }
+            }
+        }
+
+        .dashboard {
+            width: 90%;
+            .content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                h1 {
+                    text-align: center;
+                    font-size: 2.2vmax;
+                }
+                h5 {
+                    text-align: center;
+                }
+
+                .userSpotify {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    row-gap: 3rem;
+                    .user {
+                        width: 65%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        row-gap: 2rem;
+                        .user-header {
+                            text-align: center;
+                        }
+                        .profile {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            justify-content: center;
+                            column-gap: 15px;
+                            a {
+                                border-radius: 50%;
+                                opacity: 0.7;
+                                cursor: pointer;
+                                @include transition();
+                                &:hover {
+                                    opacity: 1;
+                                    img {
+                                        height: 120px;
+                                        width: 120px;
+                                        border-radius: 50%;
+                                    }
+                                }
+                                img {
+                                    @include transition();
+                                    height: 140px;
+                                    width: 140px;
+                                    border-radius: 50%;
+                                }
+                            }
+
+                            .info {
+                                @include no-select();
+                                display: flex;
+                                flex-direction: column;
+                                align-items: flex-end;
+                                justify-content: center;
+
+                                h1 {
+                                    margin-bottom: 0;
+                                }
+                                h6 {
+                                    font-size: 0.6rem;
+                                    margin-bottom: 1.5rem;
+                                }
+                            }
+                        }
+                        .artists {
+                            display: flex;
+                            flex-direction: column;
+                            width: 85%;
+                            row-gap: 2rem;
+                            h2 {
+                                text-align: center;
+                            }
+                            .artist {
+                                text-align: left;
+                                img {
+                                    @include transition();
+                                    border-radius: 99px;
+                                    height: 150px;
+                                    width: 140px;
+
+                                    opacity: 0.6;
+                                    &:hover {
+                                        cursor: pointer;
+                                        opacity: 1;
+                                        height: 140px;
+                                        width: 130px;
+                                    }
+                                }
+                            }
+                        }
+                        .tracks {
+                            display: flex;
+                            flex-direction: column;
+                            width: 85%;
+                            row-gap: 2rem;
+                            h2 {
+                                text-align: center;
+                            }
+                            .track {
+                                text-align: left;
+                                img {
+                                    @include transition();
+                                    border-radius: 99px;
+                                    height: 150px;
+                                    width: 140px;
+
+                                    opacity: 0.6;
+                                    &:hover {
+                                        cursor: pointer;
+                                        opacity: 1;
+                                        height: 140px;
+                                        width: 130px;
+                                    }
+                                }
+                            }
+                        }
+                        .playlists {
+                            display: flex;
+                            flex-direction: column;
+                            width: 85%;
+                            row-gap: 2rem;
+                            h2 {
+                                text-align: center;
+                            }
+                            .playlist {
+                                text-align: left;
+                                img {
+                                    @include transition();
+                                    border-radius: 99px;
+                                    height: 150px;
+                                    width: 140px;
+
+                                    opacity: 0.6;
+                                    &:hover {
+                                        cursor: pointer;
+                                        opacity: 1;
+                                        height: 140px;
+                                        width: 130px;
+                                    }
+                                }
+                            }
+                        }
+                        .genres {
+                            display: block;
+                            width: 85%;
+                            overflow-wrap: break-word;
+                            text-align: center;
+                            h2 {
+                                text-align: center;
+                            }
+                            .genre {
+                                padding: 7px;
+                                display: inline-block;
+
+                                &:hover {
+                                    background-color: $bg-lighter;
+                                    border-radius: 5px;
+                                    color: #121212;
+                                    cursor: default;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .auth {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                h1 {
+                    text-align: center;
+                    font-size: 2.2vmax;
+                }
+                h5 {
+                    text-align: center;
+                }
+            }
+
+            .auth.spotify {
+                button {
+                    border: 1px solid $bg-darker;
+                    border-radius: 333px;
+                    background-color: #1db954;
+                    color: $bg-darker;
+                    padding: 10px 25px;
+                    cursor: pointer;
+                    @include transition();
+                    &:hover {
+                        border: 1px solid $bg-lighter;
+                    }
+                    &:active {
+                        position: relative;
+                        top: 1px;
+                        border: 1px solid $bg-lighter;
+                    }
+                }
+            }
+        }
+
+        .accounts {
+            width: 75%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            row-gap: 20px;
+
+            .form-group {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                row-gap: 15px;
+
+                input {
+                    width: 400px;
+                    padding: 10px 15px;
+                    border: 1px solid $bg-main;
+                    border-radius: 5px;
+                    outline: 3px solid $bg-main;
+                    text-align: center;
+                    @include transition();
+
+                    &:hover,
+                    &:focus,
+                    &:active {
+                        outline: 3px solid $bg-lighter;
+                    }
+                }
+            }
+
+            .functions {
+                button {
+                    cursor: pointer;
+                    font-size: 1.3rem;
+                    padding: 10px 20px;
+                    border: 1px solid $bg-main;
+                    border-radius: 5px;
+                    background: none;
+                    color: $bg-lighter;
+                    opacity: 0.8;
+                    @include transition();
+
+                    &:hover {
+                        color: $bg-lighter;
+                        border-color: $bg-lighter;
+                        opacity: 1;
+                    }
+                    &:active {
+                        position: relative;
+                        bottom: 2px;
+                        border-color: $bg-darker;
+                    }
+                }
+            }
+        }
+    }
+
+    footer {
+        padding: 32px 0;
+        background-color: $bg-darker;
+        .footer-content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0.9;
+            ul {
+                width: 75%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                row-gap: 0.5rem;
+            }
+        }
+    }
+
+    .slick-list {
+        padding-left: 10px;
+    }
+}
