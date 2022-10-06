@@ -1,40 +1,89 @@
 import axios from "axios";
 
-const API_URL = "/api/users/";
+const API_URL = "https://localhost:7109/auth/";
+const headers = {
+  "Content-Type": "application/json",
+};
 
 const register = async (userData) => {
-  const response = await axios.post(API_URL, userData);
+  var config = {
+    method: "post",
+    url: API_URL + "register",
+    headers: headers,
+    data: JSON.stringify(userData),
+  };
 
-  if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data));
-  }
+  var data = await axios(config)
+    .then(function (response) {
+      console.log(response.data)
+      localStorage.setItem("user", JSON.stringify(response.data));
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
-  return response.data;
+  return data;
 };
 
 const login = async (userData) => {
-  const response = await axios.post(API_URL + "login", userData);
+  var config = {
+    method: "post",
+    url: API_URL + "login",
+    headers: headers,
+    data: JSON.stringify(userData),
+  };
 
-  if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data));
-  }
+  var data = await axios(config)
+    .then(function (response) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
-  return response.data;
+  return data;
 };
 
 const logout = async () => {
   localStorage.removeItem("user");
-  localStorage.removeItem("userSpotify");
 };
 
 const checkExistingUsername = async (userData) => {
-  const response = await axios.post(API_URL, userData.username);
-  return response.data;
+  var config = {
+    method: "post",
+    url: API_URL + "cusername",
+    headers: headers,
+    data: JSON.stringify(userData),
+  };
+
+  var data = await axios(config)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return data;
 };
 
 const checkExistingMail = async (userData) => {
-  const response = await axios.post(API_URL, userData.email);
-  return response.data;
+  var config = {
+    method: "post",
+    url: API_URL + "cmail",
+    headers: headers,
+    data: JSON.stringify(userData),
+  };
+
+  var data = await axios(config)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return data;
 };
 
 const authService = {

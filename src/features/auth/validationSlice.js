@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import validationService from "./validationService";
 
 const initialState = {
-  usernameValidated: false,
-  emailValidated: false,
+  usernameExists: false,
+  emailExists: false,
 };
 
 export const checkExistingUsername = createAsyncThunk(
@@ -45,17 +45,17 @@ export const validationSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => {
-      state.usernameValidated = false;
-      state.emailValidated = false;
+      state.usernameExists = false;
+      state.emailExists = false;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(checkExistingUsername.fulfilled, (state, action) => {
-        state.usernameValidated = action.payload;
+        state.usernameExists = action.payload;
       })
       .addCase(checkExistingMail.fulfilled, (state, action) => {
-        state.emailValidated = action.payload;
+        state.emailExists = action.payload;
       });
   },
 });

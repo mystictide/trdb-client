@@ -1,20 +1,33 @@
 @import "./normalize.css";
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap");
 
-$font-mont: "Montserrat", sans-serif;
+@font-face {
+    font-family: "Montserrat Light";
+    src: local("Montserrat-Light"), url("../fonts/Montserrat/Montserrat-Light.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Montserrat Regular";
+    src: local("Montserrat-Regular"), url("../fonts/Montserrat/Montserrat-Regular.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Montserrat Bold";
+    src: local("Montserrat-Bold"), url("../fonts/Montserrat/Montserrat-Bold.ttf") format("truetype");
+}
+
+$font-light: "Montserrat Light", sans-serif;
+$font-mont: "Montserrat Regular", sans-serif;
+$font-bold: "Montserrat Bold", sans-serif;
 $font-sans: sans-serif;
-$bg-main: #1e442b;
-$bg-darker: #143620;
-$bg-lighter: #85e97a;
+$bg-main: #1e171f;
+$bg-darker: #1d161e;
+$bg-lighter: #3e2c41;
 $main-color: #d3d0cb;
 $flavor-color: #ffc18e;
-$num-colors: 100;
 
 @mixin bg-gradient {
     background-repeat-x: repeat;
     background-repeat-y: no-repeat;
     background-color: $bg-darker;
-    background-image: linear-gradient(180deg, $bg-main 0, $bg-main 250px, $bg-darker 251px);
+    background-image: linear-gradient(180deg, $bg-darker 0, $bg-main 250px, $bg-lighter 251px);
     background-position: 0 0;
 }
 
@@ -66,26 +79,6 @@ body {
     width: 100%;
 }
 
-.gnr-button {
-    font-size: 2rem;
-    border: 1px solid $bg-darker;
-    border-radius: 333px;
-    background-color: #1db954;
-    color: $bg-darker;
-    padding: 10px 25px;
-    cursor: pointer;
-    @include transition();
-    &:hover {
-        font-size: 2.2rem;
-        border: 1px solid $bg-lighter;
-    }
-    &:active {
-        position: relative;
-        top: 1px;
-        border: 1px solid $bg-lighter;
-    }
-}
-
 .page-container {
     width: 100%;
     position: relative;
@@ -106,7 +99,7 @@ body {
         nav {
             display: flex;
             flex-direction: row;
-            justify-content: center;
+            justify-content: space-evenly;
             width: 100%;
             height: 100%;
 
@@ -154,10 +147,9 @@ body {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 500px;
         height: 100%;
         padding: 30px 0;
-        background: #14181c url(../img/bg/bg-main.png) 0 -1px repeat-x;
+        background: $bg-main url(../img/bg/bg-main2.png) 0 -1px repeat-x;
 
         .greetings {
             width: 75%;
@@ -175,43 +167,6 @@ body {
                     text-align: center;
                 }
             }
-            .functions {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
-
-                a {
-                    cursor: pointer;
-                    font-size: 1.3rem;
-                    padding: 10px 20px;
-                    border: 1px solid $bg-main;
-                    border-radius: 5px;
-                    background: none;
-                    color: $bg-lighter;
-                    opacity: 0.8;
-                    @include transition();
-
-                    &:hover {
-                        color: $bg-lighter;
-                        border-color: $bg-lighter;
-                        opacity: 1;
-                    }
-                    &:active {
-                        position: relative;
-                        bottom: 2px;
-                        border-color: $bg-darker;
-                    }
-                }
-
-                a.min {
-                    position: relative;
-                    border: none;
-                    align-self: flex-end;
-                    padding: 10px;
-                    font-size: 0.7rem;
-                }
-            }
         }
 
         .dashboard {
@@ -221,174 +176,6 @@ body {
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                h1 {
-                    text-align: center;
-                    font-size: 2.2vmax;
-                }
-                h5 {
-                    text-align: center;
-                }
-
-                .userSpotify {
-                    width: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    row-gap: 3rem;
-                    .user {
-                        width: 65%;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
-                        row-gap: 2rem;
-                        .user-header {
-                            text-align: center;
-                        }
-                        .profile {
-                            display: flex;
-                            flex-direction: row;
-                            align-items: center;
-                            justify-content: center;
-                            column-gap: 15px;
-                            a {
-                                border-radius: 50%;
-                                opacity: 0.7;
-                                cursor: pointer;
-                                @include transition();
-                                &:hover {
-                                    opacity: 1;
-                                    img {
-                                        height: 120px;
-                                        width: 120px;
-                                        border-radius: 50%;
-                                    }
-                                }
-                                img {
-                                    @include transition();
-                                    height: 140px;
-                                    width: 140px;
-                                    border-radius: 50%;
-                                }
-                            }
-
-                            .info {
-                                @include no-select();
-                                display: flex;
-                                flex-direction: column;
-                                align-items: flex-end;
-                                justify-content: center;
-
-                                h1 {
-                                    margin-bottom: 0;
-                                }
-                                h6 {
-                                    font-size: 0.6rem;
-                                    margin-bottom: 1.5rem;
-                                }
-                            }
-                        }
-                        .artists {
-                            display: flex;
-                            flex-direction: column;
-                            width: 85%;
-                            row-gap: 2rem;
-                            h2 {
-                                text-align: center;
-                            }
-                            .artist {
-                                text-align: left;
-                                img {
-                                    @include transition();
-                                    border-radius: 99px;
-                                    height: 150px;
-                                    width: 140px;
-
-                                    opacity: 0.6;
-                                    &:hover {
-                                        cursor: pointer;
-                                        opacity: 1;
-                                        height: 140px;
-                                        width: 130px;
-                                    }
-                                }
-                            }
-                        }
-                        .tracks {
-                            display: flex;
-                            flex-direction: column;
-                            width: 85%;
-                            row-gap: 2rem;
-                            h2 {
-                                text-align: center;
-                            }
-                            .track {
-                                text-align: left;
-                                img {
-                                    @include transition();
-                                    border-radius: 99px;
-                                    height: 150px;
-                                    width: 140px;
-
-                                    opacity: 0.6;
-                                    &:hover {
-                                        cursor: pointer;
-                                        opacity: 1;
-                                        height: 140px;
-                                        width: 130px;
-                                    }
-                                }
-                            }
-                        }
-                        .playlists {
-                            display: flex;
-                            flex-direction: column;
-                            width: 85%;
-                            row-gap: 2rem;
-                            h2 {
-                                text-align: center;
-                            }
-                            .playlist {
-                                text-align: left;
-                                img {
-                                    @include transition();
-                                    border-radius: 99px;
-                                    height: 150px;
-                                    width: 140px;
-
-                                    opacity: 0.6;
-                                    &:hover {
-                                        cursor: pointer;
-                                        opacity: 1;
-                                        height: 140px;
-                                        width: 130px;
-                                    }
-                                }
-                            }
-                        }
-                        .genres {
-                            display: block;
-                            width: 85%;
-                            overflow-wrap: break-word;
-                            text-align: center;
-                            h2 {
-                                text-align: center;
-                            }
-                            .genre {
-                                padding: 7px;
-                                display: inline-block;
-
-                                &:hover {
-                                    background-color: $bg-lighter;
-                                    border-radius: 5px;
-                                    color: #121212;
-                                    cursor: default;
-                                }
-                            }
-                        }
-                    }
-                }
             }
 
             .auth {
@@ -404,108 +191,61 @@ body {
                     text-align: center;
                 }
             }
-
-            .auth.spotify {
-                button {
-                    border: 1px solid $bg-darker;
-                    border-radius: 333px;
-                    background-color: #1db954;
-                    color: $bg-darker;
-                    padding: 10px 25px;
-                    cursor: pointer;
-                    @include transition();
-                    &:hover {
-                        border: 1px solid $bg-lighter;
-                    }
-                    &:active {
-                        position: relative;
-                        top: 1px;
-                        border: 1px solid $bg-lighter;
-                    }
-                }
-            }
-        }
-
-        .accounts {
-            width: 75%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            row-gap: 20px;
-
-            .form-group {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                row-gap: 15px;
-
-                input {
-                    width: 400px;
-                    padding: 10px 15px;
-                    border: 1px solid $bg-main;
-                    border-radius: 5px;
-                    outline: 3px solid $bg-main;
-                    text-align: center;
-                    @include transition();
-
-                    &:hover,
-                    &:focus,
-                    &:active {
-                        outline: 3px solid $bg-lighter;
-                    }
-                }
-            }
-
-            .functions {
-                button {
-                    cursor: pointer;
-                    font-size: 1.3rem;
-                    padding: 10px 20px;
-                    border: 1px solid $bg-main;
-                    border-radius: 5px;
-                    background: none;
-                    color: $bg-lighter;
-                    opacity: 0.8;
-                    @include transition();
-
-                    &:hover {
-                        color: $bg-lighter;
-                        border-color: $bg-lighter;
-                        opacity: 1;
-                    }
-                    &:active {
-                        position: relative;
-                        bottom: 2px;
-                        border-color: $bg-darker;
-                    }
-                }
-            }
         }
     }
 
     footer {
-        padding: 32px 0;
-        background-color: $bg-darker;
-        .footer-content {
-            width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        padding-bottom: 140px;
+        background-color: $bg-lighter;
+
+        .footer-wrapper {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0.9;
-            ul {
-                width: 75%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                row-gap: 0.5rem;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 35px 0;
+            margin: 0 auto;
+            width: 950px;
+            .footer-nav {
+                flex: 0 0 auto;
+                opacity: 0.9;
+                margin-bottom: 1em;
+                ul {
+                    row-gap: 0.5rem;
+                    li {
+                        display: inline-block;
+                        margin-right: 1em;
+                        font-family: $font-bold;
+                        font-size: .95rem;
+                    }
+                }
+            }
+            .socials {
+                ul {
+                    display: inline-flex;
+                    li {
+                        display: inline-block;
+                        margin-right: 0.6em;
+                        a {
+                            font-size: 1.2rem;
+                            opacity: 0.5;
+                            cursor: pointer;
+                            @include transition();
+                            &:hover {
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+            }
+            .copyright {
+                opacity: 0.5;
+                font-family: $font-light;
+                flex: 1 0 100%;
             }
         }
-    }
-
-    .slick-list {
-        padding-left: 10px;
     }
 }

@@ -1,25 +1,44 @@
 import axios from "axios";
 
-const API_URL = "/api/users/";
+const API_URL = "https://localhost:7109/auth/";
+const headers = {
+  "Content-Type": "application/json",
+};
 
 const checkExistingUsername = async (username) => {
-  const response = await axios.post(API_URL + "cusername", {
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    data: username,
-  });
-  return response.data;
+  var config = {
+    method: "post",
+    url: API_URL + "cusername",
+    headers: headers,
+    data: JSON.stringify(username),
+  };
+
+  var data = await axios(config)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return data;
 };
 
 const checkExistingMail = async (email) => {
-  const response = await axios.post(API_URL + "cmail", {
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    data: email,
-  });
-  return response.data;
+  var config = {
+    method: "post",
+    url: API_URL + "cmail",
+    headers: headers,
+    data: JSON.stringify(email),
+  };
+
+  var data = await axios(config)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  return data;
 };
 
 const validationService = {

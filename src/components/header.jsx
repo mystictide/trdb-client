@@ -2,14 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout, reset } from "../features/auth/authSlice";
-import {
-  BiMessageDots,
-  BiBody,
-  BiSearch,
-  BiGroup,
-  BiAperture,
-  BiArrowToRight,
-} from "react-icons/bi";
+import { BiSearch } from "react-icons/bi";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -36,28 +29,19 @@ const Header = () => {
               <Link to="/" className="logo" />
               <div className="main-nav">
                 <ul>
-                  <li>{user.username}</li>
                   <li>
-                    <BiMessageDots />
+                    <Link to="/me">{user.Username}</Link>
                   </li>
+                  <li>Films</li>
+                  <li>Messages</li>
+                  <li>Lists</li>
+                  <li>Members</li>
                   <li>
-                    <Link to="/me">
-                      <BiBody />
-                    </Link>
-                  </li>
-                  <li>
-                    <BiAperture />
-                  </li>
-                  <li>
-                    <BiGroup />
-                  </li>
-                  <li>
+                    {" "}
                     <BiSearch />
                   </li>
                   <li>
-                    <button onClick={doLogout}>
-                      <BiArrowToRight />
-                    </button>
+                    <button onClick={doLogout}>Logout</button>
                   </li>
                 </ul>
               </div>

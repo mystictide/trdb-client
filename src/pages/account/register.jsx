@@ -20,29 +20,38 @@ function Register() {
   });
 
   const [formValidation, setFormValidation] = useState({
-    vUsername: false,
-    vEmail: false,
     vPassword: true,
   });
 
-  const { user, isSuccess, isError, message } = useSelector((state) => state.auth);
+  const { user, isSuccess, isError, message } = useSelector(
+    (state) => state.auth
+  );
   const { username, email, password } = formData;
-  const { vUsername, vEmail, vPassword } = formValidation;
-  const { usernameValidated, emailValidated } = useSelector(
+  const { vPassword } = formValidation;
+  const { usernameExists, emailExists } = useSelector(
     (state) => state.validation
   );
 
   useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
     if (isSuccess) {
       navigate("/login");
     }
     if (isError) {
       toast.error(message);
     }
-    if (user) {
-      navigate("/");
-    }
-  }, [user, isSuccess, isError, message, navigate, setFormData, setFormValidation, dispatch]);
+  }, [
+    user,
+    isSuccess,
+    isError,
+    message,
+    navigate,
+    setFormData,
+    setFormValidation,
+    dispatch,
+  ]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -58,33 +67,11 @@ function Register() {
     if (e.target.name === "username") {
       if (e.target.value.length > 0) {
         dispatch(checkExistingUsername(e.target.value));
-        if (usernameValidated) {
-          setFormValidation((prevState) => ({
-            ...prevState,
-            vUsername: true,
-          }));
-        } else {
-          setFormValidation((prevState) => ({
-            ...prevState,
-            vUsername: false,
-          }));
-        }
       }
     }
     if (e.target.name === "email") {
       if (e.target.value.length > 0) {
         dispatch(checkExistingMail(e.target.value));
-        if (emailValidated) {
-          setFormValidation((prevState) => ({
-            ...prevState,
-            vEmail: true,
-          }));
-        } else {
-          setFormValidation((prevState) => ({
-            ...prevState,
-            vEmail: false,
-          }));
-        }
       }
     }
     if (e.target.name === "password") {
@@ -124,7 +111,7 @@ function Register() {
           placeholder="enter a username"
           onChange={onChange}
         />
-        {vUsername ? (
+        {usernameExists ? (
           <label className="error">Username already exists</label>
         ) : (
           ""
@@ -139,7 +126,7 @@ function Register() {
           placeholder="enter an email address"
           onChange={onChange}
         />
-        {vEmail ? (
+        {emailExists ? (
           <label className="error">Email address already registered</label>
         ) : (
           ""
