@@ -1,15 +1,10 @@
-import {
-  ImTwitter,
-  ImFacebook,
-  ImInstagram,
-  ImYoutube
-} from "react-icons/im";
+import { ImTwitter, ImFacebook, ImInstagram, ImYoutube } from "react-icons/im";
 
 function Footer() {
   return (
     <footer>
       <div className="footer-wrapper">
-        <div className="footer-nav">
+        <nav className="footer-nav">
           <ul>
             <li>About</li>
             <li>News</li>
@@ -19,16 +14,32 @@ function Footer() {
             <li>Repository</li>
             <li>Contact</li>
           </ul>
-        </div>
+        </nav>
         <div className="socials">
           <ul>
-            <li><a href="a"><ImTwitter/></a></li>
-            <li><a href="b"><ImFacebook/></a></li>
-            <li><a href="c"><ImInstagram/></a></li>
-            <li><a href="d"><ImYoutube/></a></li>
+            <li>
+              <a href="a">
+                <ImTwitter />
+              </a>
+            </li>
+            <li>
+              <a href="b">
+                <ImFacebook />
+              </a>
+            </li>
+            <li>
+              <a href="c">
+                <ImInstagram />
+              </a>
+            </li>
+            <li>
+              <a href="d">
+                <ImYoutube />
+              </a>
+            </li>
           </ul>
         </div>
-        <h6 class="copyright">
+        <h6 className="copyright">
           © TRDB - The Review Database, Made by a lone mad-man. Film data
           provided by TMDb.
         </h6>

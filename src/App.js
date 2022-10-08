@@ -1,23 +1,24 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 import Header from "./components/header";
+import Backdrop from "./components/backdrop";
 import Home from "./pages/main/home";
 import Footer from "./components/footer";
-import Register from "./pages/account/register";
-import Login from "./pages/account/login";
 
 function App() {
+  const { user } = useSelector((state) => state.auth);
+
   return (
     <>
       <Router>
         <div className="page-container">
+          {!user ? <Backdrop /> : ""}
           <Header />
-          <div className="main">
+          <div id="main" className="main">
             <Routes>
               <Route path="/" element={<Home />}></Route>
-              <Route path="/register" element={<Register />}></Route>
-              <Route path="/login" element={<Login />}></Route>
             </Routes>
           </div>
           <Footer />

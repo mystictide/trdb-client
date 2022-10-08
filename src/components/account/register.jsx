@@ -8,6 +8,8 @@ import {
   checkExistingUsername,
 } from "../../features/auth/validationSlice";
 import { useNavigate } from "react-router-dom";
+import { accountModalSlice } from "../../features/helpers/accountModalSlice";
+import { FaTimes } from "react-icons/fa";
 
 function Register() {
   const navigate = useNavigate();
@@ -98,60 +100,72 @@ function Register() {
   };
 
   return (
-    <div className="accounts">
-      <h1>Sign up on Matcher</h1>
-      <form className="form-group" onSubmit={onSubmit}>
-        <label>Username</label>
-        <input
-          type="text"
-          className="form-control"
-          id="username"
-          name="username"
-          value={username}
-          placeholder="enter a username"
-          onChange={onChange}
-        />
-        {usernameExists ? (
-          <label className="error">Username already exists</label>
-        ) : (
-          ""
-        )}
-        <label>Email address</label>
-        <input
-          type="email"
-          className="form-control"
-          id="email"
-          name="email"
-          value={email}
-          placeholder="enter an email address"
-          onChange={onChange}
-        />
-        {emailExists ? (
-          <label className="error">Email address already registered</label>
-        ) : (
-          ""
-        )}
-        <label>Password</label>
-        <input
-          type="password"
-          className="form-control"
-          id="password"
-          name="password"
-          value={password}
-          placeholder="set a password"
-          onChange={onChange}
-        />
-        {vPassword ? (
-          <label className="error">
-            Password requires more than 6 characters
-          </label>
-        ) : (
-          ""
-        )}
-        <div className="functions">
-          <button type="submit">Sign up</button>
-        </div>
-      </form>
+    <div className="account-container">
+      <div className="acc-overlay"></div>
+      <div className="account-content">
+        <section className="heading">
+          <h1>Join ReviewDB</h1>
+          <FaTimes
+            onClick={() => {
+              dispatch(accountModalSlice.actions.updateRegisterState());
+            }}
+          />
+        </section>
+        <section className="form">
+          <form className="form-group" onSubmit={onSubmit}>
+            <label>Username</label>
+            <input
+              type="text"
+              className="form-control"
+              id="username"
+              name="username"
+              value={username}
+              placeholder="enter a username"
+              onChange={onChange}
+            />
+            {usernameExists ? (
+              <label className="error">Username already exists</label>
+            ) : (
+              ""
+            )}
+            <label>Email address</label>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              name="email"
+              value={email}
+              placeholder="enter an email address"
+              onChange={onChange}
+            />
+            {emailExists ? (
+              <label className="error">Email address already registered</label>
+            ) : (
+              ""
+            )}
+            <label>Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              name="password"
+              value={password}
+              placeholder="set a password"
+              onChange={onChange}
+            />
+            {vPassword ? (
+              <label className="error">
+                Password requires more than 6 characters
+              </label>
+            ) : (
+              ""
+            )}
+            <div className="functions">
+              <button type="submit">Sign up</button>
+            </div>
+          </form>
+        </section>
+      </div>
     </div>
   );
 }

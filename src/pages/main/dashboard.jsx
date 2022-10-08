@@ -12,13 +12,7 @@ function Dashboard() {
 
   return (
     <>
-      {user.userSpotify ? (
-        <div>
-          <button className="gnr-button">Match!</button>
-        </div>
-      ) : (
-        ""
-      )}
+      
     </>
   );
 }
