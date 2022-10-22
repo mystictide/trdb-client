@@ -1,11 +1,11 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
+import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/header";
 import Backdrop from "./components/backdrop";
 import Home from "./pages/main/home";
 import Footer from "./components/footer";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const { user } = useSelector((state) => state.auth);
