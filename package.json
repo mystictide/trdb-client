@@ -15,9 +15,13 @@
     "react-icons": "^4.4.0",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.1",
-    "react-scripts": "5.0.1",
+    "react-spinners": "^0.13.6",
     "react-toastify": "^9.0.8",
-    "sass": "^1.55.0"
+    "sass": "^1.55.0",
+    "universal-cookie": "^4.0.4"
+  },
+  "devDependencies": {
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

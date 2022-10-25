@@ -1,9 +1,12 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import Featured from "../../components/main/featured";
+import Backdrop from "../../components/main/backdrop";
 import { accountModalSlice } from "../../features/helpers/accountModalSlice";
 
 function Welcome() {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const el = document.getElementById("main");
@@ -12,26 +15,30 @@ function Welcome() {
     elHeader.classList.add("welcome-header");
   }, []);
   return (
-    <div className="content">
-      <div className="content-wrap">
-        <div className="greetings">
-          <div className="message">
-            <h1>Your Art, Your Thoughts</h1>
-            <h1>Take notes on the Films you see</h1>
-            <h1>Say a few words about the Artists you listen to</h1>
+    <>
+      {!user ? <Backdrop /> : ""}
+      <div className="content">
+        <div className="content-wrap">
+          <div className="greetings">
+            <div className="message">
+              <h1>Your Art, Your Thoughts</h1>
+              <h1>Take notes on the Films you see</h1>
+              <h1>Say a few words about the Artists you listen to</h1>
+            </div>
+            <div className="functions">
+              <button
+                onClick={() => {
+                  dispatch(accountModalSlice.actions.updateRegisterState());
+                }}
+              >
+                COME ABOARD — AND SHARE!
+              </button>
+            </div>
           </div>
-          <div className="functions">
-            <button
-              onClick={() => {
-                dispatch(accountModalSlice.actions.updateRegisterState());
-              }}
-            >
-              COME ABOARD — AND SHARE!
-            </button>
-          </div>
+          <Featured />
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
