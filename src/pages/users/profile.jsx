@@ -33,7 +33,26 @@ function UserProfile() {
 
   return (
     <>
-      <div>lol</div>
+      <div className="user-profile">
+        <div className="content">
+          <div className="personal">
+            <h3>{profile.personal.Username}</h3>
+          </div>
+          <div className="functions">
+            <ul>
+              <li>Profile</li>
+              <li>Activity</li>
+              <li>Films</li>
+              <li>Diary</li>
+              <li>Reviews</li>
+              <li>Watchlist</li>
+              <li>Lists</li>
+              <li>Likes</li>
+              <li>Network</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

@@ -11,7 +11,7 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, isLoggedOut } = useSelector((state) => state.auth);
-  const { loginActive, registerActive } = useSelector(
+  const { loginActive, registerActive} = useSelector(
     (state) => state.accountModal
   );
 

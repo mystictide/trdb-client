@@ -41,7 +41,7 @@ function Footer() {
         </div>
         <h6 className="copyright">
           © TRDB - The Review Database, Made by a lone mad-man. Film data
-          provided by TMDb.
+          provided most generously by TMDb.
         </h6>
       </div>
     </footer>
