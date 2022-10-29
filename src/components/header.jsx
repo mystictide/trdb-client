@@ -10,20 +10,17 @@ import { BiSearch } from "react-icons/bi";
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user, isLoggedOut } = useSelector((state) => state.auth);
-  const { loginActive, registerActive} = useSelector(
+  const { user } = useSelector((state) => state.auth);
+  const { loginActive, registerActive } = useSelector(
     (state) => state.accountModal
   );
 
-  useEffect(() => {
-    if (isLoggedOut) {
-      navigate("/");
-      dispatch(reset());
-    }
-  }, [user, isLoggedOut, loginActive, registerActive, navigate, dispatch]);
+  useEffect(() => {}, [user, loginActive, registerActive, navigate, dispatch]);
 
   const doLogout = () => {
     dispatch(logout());
+    navigate("/");
+    dispatch(reset());
   };
 
   return (

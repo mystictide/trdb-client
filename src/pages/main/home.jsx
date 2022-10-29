@@ -13,7 +13,7 @@ function Home() {
   const { loginActive } = useSelector((state) => state.accountModal);
 
   useEffect(() => {
-    if (loginActive) {
+    if (user) {
       dispatch(resetLoginState());
     }
   }, [user, loginActive, navigate, dispatch]);

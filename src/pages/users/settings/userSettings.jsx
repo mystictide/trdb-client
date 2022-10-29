@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import settingsService from "../../../features/users/settings/settingsService";
 import PersonalSettings from "../../../components/users/settings/personalSettings";
+import FilmSettings from "../../../components/users/settings/filmSettings";
 import ConnectionSettings from "../../../components/users/settings/connSettings";
 import NotificationSettings from "../../../components/users/settings/notifSettings";
 import ImportSettings from "../../../components/users/settings/importSettings";
@@ -12,11 +13,12 @@ function UserSettings() {
   const dispatch = useDispatch();
   const [panelData, setPanelData] = useState({
     personal: true,
+    film: false,
     conn: false,
     notif: false,
     imp: false,
   });
-  const { personal, conn, notif, imp } = panelData;
+  const { personal, film, conn, notif, imp } = panelData;
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -45,16 +47,22 @@ function UserSettings() {
     if (panel === 2) {
       setPanelData((prevState) => ({
         ...prevState,
-        conn: !conn,
+        film: !film,
       }));
     }
     if (panel === 3) {
       setPanelData((prevState) => ({
         ...prevState,
-        notif: !notif,
+        conn: !conn,
       }));
     }
     if (panel === 4) {
+      setPanelData((prevState) => ({
+        ...prevState,
+        notif: !notif,
+      }));
+    }
+    if (panel === 5) {
       setPanelData((prevState) => ({
         ...prevState,
         imp: !imp,
@@ -79,21 +87,26 @@ function UserSettings() {
               </li>
               <li>
                 <button onClick={(e) => setActivePanel(e, 2)}>
-                  CONNECTIONS
+                  FILMS
                 </button>
               </li>
               <li>
                 <button onClick={(e) => setActivePanel(e, 3)}>
+                  CONNECTIONS
+                </button>
+              </li>
+              <li>
+                <button onClick={(e) => setActivePanel(e, 4)}>
                   NOTIFICATIONS
                 </button>
               </li>
               <li>
-                <button onClick={(e) => setActivePanel(e, 4)}>
+                <button onClick={(e) => setActivePanel(e, 5)}>
                   IMPORT & EXPORT
                 </button>
               </li>
               <li>
-                <button onClick={(e) => setActivePanel(e, 4)}>
+                <button onClick={(e) => setActivePanel(e, 6)}>
                   Deactivate
                 </button>
               </li>
@@ -101,6 +114,7 @@ function UserSettings() {
           </div>
           <div className="settings-wrap">
             {panelData.personal ? <PersonalSettings /> : ""}
+            {panelData.film ? <FilmSettings /> : ""}
             {panelData.conn ? <ConnectionSettings /> : ""}
             {panelData.notif ? <NotificationSettings /> : ""}
             {panelData.imp ? <ImportSettings /> : ""}
