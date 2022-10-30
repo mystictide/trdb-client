@@ -1,11 +1,24 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import MediaUploader from "../../../components/helpers/mediaUploader";
+import { update } from "../../../features/auth/authSlice";
+import {
+  UpdatePersonal,
+  ToggleDMs,
+  TogglePrivacy,
+  ToggleAdultContent,
+} from "../../../features/users/settings/settingsSlice";
+import {
+  checkExistingMail,
+  checkExistingUsername,
+} from "../../../features/auth/validationSlice";
+import { toast } from "react-toastify";
 
 function PersonalSettings() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
+  const { isSuccess } = useSelector((state) => state.settings);
 
   const [personalFormData, setPersonalData] = useState({
     username: user.Username ?? "",
@@ -15,8 +28,16 @@ function PersonalSettings() {
   });
 
   const { username, email, bio, website } = personalFormData;
+  const { usernameExists, emailExists } = useSelector(
+    (state) => state.validation
+  );
 
-  useEffect(() => {}, [dispatch]);
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(update());
+      toast("Settings saved!");
+    }
+  }, [isSuccess, dispatch]);
 
   const onPersonalChange = (e) => {
     setPersonalData((prevState) => ({
@@ -25,17 +46,46 @@ function PersonalSettings() {
     }));
   };
 
-  const onPersonalSubmit = (e) => {
-    // e.preventDefault();
-    // const userData = { email, password };
-    // dispatch(login(userData));
+  const onUsernameChange = (e) => {
+    setPersonalData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+    if (e.target.value.length > 0) {
+      dispatch(checkExistingUsername(e.target.value));
+    }
   };
 
-  const onDMChange = (e) => {};
+  const onEmailChange = (e) => {
+    setPersonalData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+    if (e.target.value.length > 0) {
+      dispatch(checkExistingMail(e.target.value));
+    }
+  };
 
-  const onPrivacyChange = (e) => {};
+  const onPersonalSubmit = (e) => {
+    e.preventDefault();
+    const reqData = {
+      personal: { email, username, bio, website },
+      token: user.Token,
+    };
+    dispatch(UpdatePersonal(reqData));
+  };
 
-  const onAdultChange = (e) => {};
+  const onDMChange = (e) => {
+    dispatch(ToggleDMs(user.Token));
+  };
+
+  const onPrivacyChange = (e) => {
+    dispatch(TogglePrivacy(user.Token));
+  };
+
+  const onAdultChange = (e) => {
+    dispatch(ToggleAdultContent(user.Token));
+  };
 
   return (
     <>
@@ -51,8 +101,13 @@ function PersonalSettings() {
               name="username"
               value={username}
               placeholder={user.Username}
-              onChange={onPersonalChange}
+              onChange={onUsernameChange}
             />
+            {usernameExists ? (
+              <h5 className="form-error">Username already exists</h5>
+            ) : (
+              ""
+            )}
             <label>Email address</label>
             <input
               type="text"
@@ -61,8 +116,13 @@ function PersonalSettings() {
               name="email"
               value={email}
               placeholder={user.email}
-              onChange={onPersonalChange}
+              onChange={onEmailChange}
             />
+            {emailExists ? (
+              <h5 className="form-error">Email already exists</h5>
+            ) : (
+              ""
+            )}
             <label>Bio</label>
             <textarea
               type="text"

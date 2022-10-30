@@ -57,6 +57,9 @@ export const authSlice = createSlice({
       state.isLoggedOut = false;
       state.message = "";
     },
+    update: (state) => {
+      state.user = JSON.parse(localStorage.getItem("user"));
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -101,5 +104,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { reset } = authSlice.actions;
+export const { reset, update} = authSlice.actions;
 export default authSlice.reducer;

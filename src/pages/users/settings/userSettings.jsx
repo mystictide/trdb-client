@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import settingsService from "../../../features/users/settings/settingsService";
 import PersonalSettings from "../../../components/users/settings/personalSettings";
 import FilmSettings from "../../../components/users/settings/filmSettings";
 import ConnectionSettings from "../../../components/users/settings/connSettings";

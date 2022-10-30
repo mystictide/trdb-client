@@ -1,5 +1,6 @@
 import axios from "axios";
 
+const user = JSON.parse(localStorage.getItem("user"));
 const API_URL = "https://localhost:7109/auth/";
 const headers = {
   "Content-Type": "application/json",
