@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../features/auth/authSlice";
 import { accountModalSlice } from "../../features/helpers/accountModalSlice";
 import { FaTimes } from "react-icons/fa";

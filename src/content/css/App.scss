@@ -604,6 +604,11 @@ body {
                                                 object-fit: cover;
                                                 width: 100%;
                                             }
+                                            svg {
+                                                height: 100%;
+                                                object-fit: cover;
+                                                width: 100%;
+                                            }
                                         }
                                     }
                                 }
@@ -681,6 +686,17 @@ body {
                                 }
 
                                 .user {
+                                }
+                            }
+
+                            .functions {
+                                display: flex;
+                                column-gap: 20px;
+                                :nth-child(1) {
+                                    width: 70%;
+                                }
+                                :nth-child(2) {
+                                    width: 30%;
                                 }
                             }
                         }

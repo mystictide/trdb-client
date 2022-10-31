@@ -18,7 +18,7 @@ function PersonalSettings() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-  const { isSuccess } = useSelector((state) => state.settings);
+  const { isError, isSuccess } = useSelector((state) => state.settings);
 
   const [personalFormData, setPersonalData] = useState({
     username: user.Username ?? "",
@@ -33,11 +33,14 @@ function PersonalSettings() {
   );
 
   useEffect(() => {
+    if (isError) {
+      toast("Something went wrong!");
+    }
     if (isSuccess) {
       dispatch(update());
       toast("Settings saved!");
     }
-  }, [isSuccess, dispatch]);
+  }, [isError, isSuccess, dispatch]);
 
   const onPersonalChange = (e) => {
     setPersonalData((prevState) => ({

@@ -37,14 +37,14 @@ const UpdateAvatar = async (reqData) => {
     url: API_URL + "avatar",
     headers: {
       Authorization: "Bearer " + reqData.token,
-      "Content-Type": "application/json",
+      "Content-Type": "multipart/form-data",
     },
-    data: JSON.stringify(reqData.file),
+    data: reqData.data,
   };
 
   var data = await axios(config)
     .then(function (response) {
-      user.Settings.picture_path = response.data;
+      user.Settings.picture_path = response.data + "ua-small.jpg";
       localStorage.setItem("user", JSON.stringify(user));
       return response.data;
     })

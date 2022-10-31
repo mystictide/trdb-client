@@ -3,11 +3,17 @@ import Cropper from "react-easy-crop";
 import MediaPreview from "./mediaPreview";
 import getCroppedImg from "../../content/js/cropImage";
 import { useSelector, useDispatch } from "react-redux";
+import {
+  UpdateAvatar,
+  reset,
+} from "../../features/users/settings/settingsSlice";
+import { FaUserAlt } from "react-icons/fa";
 
 function MediaUploader() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
+  const { isSuccess } = useSelector((state) => state.settings);
 
   const [mediaData, setMedialData] = useState({
     previewBlob: null,
@@ -18,16 +24,14 @@ function MediaUploader() {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [croppedArea, setCroppedArea] = useState(null);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-  const [croppedImage, setCroppedImage] = useState(null);
+  // const [croppedImage, setCroppedImage] = useState(null);
 
-  useEffect(() => {}, [setMedialData, dispatch]);
-
-  const onMediaSubmit = (e) => {
-    //uploadblob
-  };
-  const onMediaSelect = (file) => {
-    //blobhere
-  };
+  useEffect(() => {
+    if (isSuccess) {
+      resetProcess();
+      dispatch(reset());
+    }
+  }, [isSuccess, setMedialData, dispatch]);
 
   const onMediaDrop = (e) => {
     e.preventDefault();
@@ -69,10 +73,10 @@ function MediaUploader() {
     }));
   };
 
-  const showCroppedImage = useCallback(async () => {
+  const getCroppedImage = useCallback(async () => {
     try {
       const croppedImage = await getCroppedImg(previewBlob, croppedAreaPixels);
-      setCroppedImage(croppedImage);
+      return croppedImage;
     } catch (e) {
       console.error(e);
     }
@@ -81,6 +85,29 @@ function MediaUploader() {
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
+
+  const uploadAvatar = useCallback(async () => {
+    try {
+      const croppedImage = await getCroppedImage();
+      let formData = new FormData();
+      let file = new File([croppedImage], "userAvatar.jpg", {
+        type: "image/jpeg",
+        lastModified: new Date().getTime(),
+      });
+      formData.append("file", file, "userAvatar.jpg");
+      const reqData = { data: formData, token: user.Token };
+      dispatch(UpdateAvatar(reqData));
+    } catch (e) {
+      console.error(e);
+    }
+  }, [user, getCroppedImage, dispatch]);
+
+  const resetProcess = (e) => {
+    setMedialData({ previewBlob: null });
+    setCrop({ x: 0, y: 0 });
+    setCroppedArea(null);
+    setCroppedAreaPixels(null);
+  };
 
   return (
     <>
@@ -111,10 +138,17 @@ function MediaUploader() {
                   </div>
                   <div className="preview-container">
                     <div className="preview">
-                      <img
-                        alt="user avatar"
-                        src="https://a.ltrbxd.com/resized/avatar/upload/1/0/2/9/3/6/2/shard/avtr-0-1000-0-1000-crop.jpg"
-                      />
+                      {user.Settings.picture_path ? (
+                        <img
+                          alt="user avatar"
+                          src={
+                            "C:/Users/mushi/source/repos/trdb-server/trdb.api/media/avatars/user" +
+                            user.Settings.picture_path
+                          }
+                        />
+                      ) : (
+                        <FaUserAlt />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -151,7 +185,28 @@ function MediaUploader() {
                 onCropComplete={onCropComplete}
               />
             </div>
-            {croppedArea ? <button type="submit">Save</button> : ""}
+            {croppedArea ? (
+              <div className="functions">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    uploadAvatar();
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    resetProcess();
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         )}
       </div>
