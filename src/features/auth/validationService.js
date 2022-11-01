@@ -20,7 +20,7 @@ const checkExistingUsername = async (username) => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
   return data;
 };
@@ -38,7 +38,7 @@ const checkExistingMail = async (email) => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
   return data;
 };

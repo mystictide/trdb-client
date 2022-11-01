@@ -36,7 +36,7 @@ function PersonalSettings() {
     if (isError) {
       toast("Something went wrong!");
     }
-    if (isSuccess) {
+    if (!isError & isSuccess) {
       dispatch(update());
       toast("Settings saved!");
     }

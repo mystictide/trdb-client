@@ -18,7 +18,7 @@ const GetUserProfile = async (reqData) => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
 
   return data;
@@ -37,7 +37,7 @@ const GetUserFollowing = async (reqData) => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
 
   return data;
@@ -56,7 +56,7 @@ const GetUserFollowers = async (reqData) => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
 
   return data;
@@ -75,7 +75,7 @@ const GetUserBlocklist = async (reqData) => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
 
   return data;

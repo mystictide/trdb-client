@@ -25,7 +25,7 @@ const GetWeekly = async () => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
 
   return data;
@@ -48,7 +48,7 @@ const GetPopularMovies = async () => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
 
   return data;
@@ -71,7 +71,7 @@ const GetTopMovies = async () => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
 
   return data;

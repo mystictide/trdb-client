@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import validationService from "./validationService";
 
 const initialState = {
+  checking: false,
   usernameExists: false,
   emailExists: false,
 };
@@ -10,7 +11,10 @@ export const checkExistingUsername = createAsyncThunk(
   "validation/cusername",
   async (username, thunkAPI) => {
     try {
-      return await validationService.checkExistingUsername(username);
+      const response = await validationService.checkExistingUsername(username);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
     } catch (error) {
       const message =
         (error.response &&
@@ -27,7 +31,10 @@ export const checkExistingMail = createAsyncThunk(
   "validation/cmail",
   async (email, thunkAPI) => {
     try {
-      return await validationService.checkExistingMail(email);
+      const response = await validationService.checkExistingMail(email);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
     } catch (error) {
       const message =
         (error.response &&
@@ -45,16 +52,22 @@ export const validationSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => {
+      state.checking = false;
       state.usernameExists = false;
       state.emailExists = false;
     },
   },
   extraReducers: (builder) => {
     builder
+      .addCase(checkExistingUsername.pending, (state, action) => {
+        state.checking = true;
+      })
       .addCase(checkExistingUsername.fulfilled, (state, action) => {
+        state.checking = false;
         state.usernameExists = action.payload;
       })
       .addCase(checkExistingMail.fulfilled, (state, action) => {
+        state.checking = false;
         state.emailExists = action.payload;
       });
   },

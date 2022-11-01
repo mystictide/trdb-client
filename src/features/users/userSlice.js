@@ -21,7 +21,10 @@ export const GetUserProfile = createAsyncThunk(
   "users/get/profile",
   async (reqData, thunkAPI) => {
     try {
-      return await userService.GetUserProfile(reqData);
+      const response = await userService.GetUserProfile(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
     } catch (error) {
       const message =
         (error.response &&
@@ -38,7 +41,10 @@ export const GetUserFollowing = createAsyncThunk(
   "users/get/following",
   async (reqData, thunkAPI) => {
     try {
-      return await userService.GetUserFollowing(reqData);
+      const response = await userService.GetUserFollowing(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
     } catch (error) {
       const message =
         (error.response &&
@@ -55,7 +61,10 @@ export const GetUserFollowers = createAsyncThunk(
   "users/get/followers",
   async (reqData, thunkAPI) => {
     try {
-      return await userService.GetUserFollowers(reqData);
+      const response = await userService.GetUserFollowers(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
     } catch (error) {
       const message =
         (error.response &&
@@ -72,7 +81,10 @@ export const GetUserBlocklist = createAsyncThunk(
   "users/get/blocklist",
   async (reqData, thunkAPI) => {
     try {
-      return await userService.GetUserBlocklist(reqData);
+      const response = await userService.GetUserBlocklist(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
     } catch (error) {
       const message =
         (error.response &&
@@ -108,6 +120,7 @@ export const userSlice = createSlice({
       })
       .addCase(GetUserProfile.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
         state.profile.personal = null;
@@ -122,6 +135,7 @@ export const userSlice = createSlice({
       })
       .addCase(GetUserFollowing.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
         state.profile.following = null;
@@ -136,6 +150,7 @@ export const userSlice = createSlice({
       })
       .addCase(GetUserFollowers.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
         state.profile.followers = null;
@@ -150,6 +165,7 @@ export const userSlice = createSlice({
       })
       .addCase(GetUserBlocklist.rejected, (state, action) => {
         // state.isLoading = false;
+        // state.isSuccess = false;
         // state.isError = true;
         // state.message = action.payload;
         // state.profile.followers = null;

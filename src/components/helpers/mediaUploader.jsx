@@ -24,7 +24,6 @@ function MediaUploader() {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [croppedArea, setCroppedArea] = useState(null);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-  // const [croppedImage, setCroppedImage] = useState(null);
 
   useEffect(() => {
     if (isSuccess) {
@@ -142,7 +141,7 @@ function MediaUploader() {
                         <img
                           alt="user avatar"
                           src={
-                            "C:/Users/mushi/source/repos/trdb-server/trdb.api/media/avatars/user" +
+                            "http://127.0.0.1:8887/avatars/user" +
                             user.Settings.picture_path
                           }
                         />

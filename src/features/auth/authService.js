@@ -20,7 +20,7 @@ const register = async (userData) => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
 
   return data;
@@ -40,7 +40,7 @@ const login = async (userData) => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
 
   return data;
@@ -63,7 +63,7 @@ const checkExistingUsername = async (userData) => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
   return data;
 };
@@ -81,7 +81,7 @@ const checkExistingMail = async (userData) => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
   return data;
 };

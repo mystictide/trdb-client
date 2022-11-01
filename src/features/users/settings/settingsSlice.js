@@ -11,7 +11,11 @@ export const UpdatePersonal = createAsyncThunk(
   "settings/personal",
   async (reqData, thunkAPI) => {
     try {
-      return await settingsService.UpdatePersonal(reqData);
+      const response = await settingsService.UpdatePersonal(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -28,7 +32,10 @@ export const UpdateAvatar = createAsyncThunk(
   "settings/avatar",
   async (reqData, thunkAPI) => {
     try {
-      return await settingsService.UpdateAvatar(reqData);
+      const response = await settingsService.UpdateAvatar(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
     } catch (error) {
       const message =
         (error.response &&
@@ -45,7 +52,10 @@ export const ToggleDMs = createAsyncThunk(
   "settings/dm",
   async (reqData, thunkAPI) => {
     try {
-      return await settingsService.ToggleDMs(reqData);
+      const response = await settingsService.ToggleDMs(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
     } catch (error) {
       const message =
         (error.response &&
@@ -62,7 +72,10 @@ export const TogglePrivacy = createAsyncThunk(
   "settings/privacy",
   async (reqData, thunkAPI) => {
     try {
-      return await settingsService.TogglePrivacy(reqData);
+      const response = await settingsService.TogglePrivacy(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
     } catch (error) {
       const message =
         (error.response &&
@@ -79,7 +92,29 @@ export const ToggleAdultContent = createAsyncThunk(
   "settings/adult",
   async (reqData, thunkAPI) => {
     try {
-      return await settingsService.ToggleAdultContent(reqData);
+      const response = await settingsService.ToggleAdultContent(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+export const ManageFavoriteMovies = createAsyncThunk(
+  "settings/favorites",
+  async (reqData, thunkAPI) => {
+    try {
+      const response = await settingsService.ManageFavoriteMovies(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
     } catch (error) {
       const message =
         (error.response &&
@@ -112,9 +147,11 @@ export const settingsSlice = createSlice({
       .addCase(UpdatePersonal.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
       })
       .addCase(UpdatePersonal.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
       })
@@ -125,9 +162,26 @@ export const settingsSlice = createSlice({
       .addCase(UpdateAvatar.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
       })
       .addCase(UpdateAvatar.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(ManageFavoriteMovies.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+      })
+      .addCase(ManageFavoriteMovies.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+      })
+      .addCase(ManageFavoriteMovies.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
       })
@@ -138,9 +192,11 @@ export const settingsSlice = createSlice({
       .addCase(ToggleDMs.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
       })
       .addCase(ToggleDMs.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
       })
@@ -151,9 +207,11 @@ export const settingsSlice = createSlice({
       .addCase(TogglePrivacy.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
       })
       .addCase(TogglePrivacy.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
       })
@@ -164,9 +222,11 @@ export const settingsSlice = createSlice({
       .addCase(ToggleAdultContent.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
       })
       .addCase(ToggleAdultContent.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
       });

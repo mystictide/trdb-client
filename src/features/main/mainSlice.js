@@ -23,7 +23,10 @@ export const GetWeekly = createAsyncThunk(
   "main/get/weekly",
   async (thunkAPI) => {
     try {
-      return await mainService.GetWeekly();
+      const response = await mainService.GetWeekly();
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
     } catch (error) {
       const message =
         (error.response &&
@@ -40,7 +43,10 @@ export const GetPopularMovies = createAsyncThunk(
   "main/get/popular",
   async (thunkAPI) => {
     try {
-      return await mainService.GetPopularMovies();
+      const response = await mainService.GetPopularMovies();
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
     } catch (error) {
       const message =
         (error.response &&
@@ -57,7 +63,10 @@ export const GetTopMovies = createAsyncThunk(
   "main/get/top",
   async (thunkAPI) => {
     try {
-      return await mainService.GetTopMovies();
+      const response =  await mainService.GetTopMovies();
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
     } catch (error) {
       const message =
         (error.response &&
@@ -93,6 +102,7 @@ export const mainSlice = createSlice({
       })
       .addCase(GetWeekly.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
         state.homepage.weekly = null;
@@ -107,6 +117,7 @@ export const mainSlice = createSlice({
       })
       .addCase(GetPopularMovies.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
         state.homepage.popular = null;
@@ -121,6 +132,7 @@ export const mainSlice = createSlice({
       })
       .addCase(GetTopMovies.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
         state.homepage.top = null;

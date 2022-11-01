@@ -25,7 +25,7 @@ const UpdatePersonal = async (reqData) => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
 
   return data;
@@ -49,7 +49,7 @@ const UpdateAvatar = async (reqData) => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
 
   return data;
@@ -72,7 +72,7 @@ const ToggleDMs = async (reqData) => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
 
   return data;
@@ -95,7 +95,7 @@ const TogglePrivacy = async (reqData) => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
     });
 
   return data;
@@ -118,7 +118,31 @@ const ToggleAdultContent = async (reqData) => {
       return response.data;
     })
     .catch(function (error) {
-      console.log(error);
+      return { data: error.response.data, status: error.response.status };
+    });
+
+  return data;
+};
+
+const ManageFavoriteMovies = async (reqData) => {
+  var config = {
+    method: "post",
+    url: API_URL + "favorites",
+    headers: {
+      Authorization: "Bearer " + reqData.token,
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify(reqData.data),
+  };
+
+  var data = await axios(config)
+    .then(function (response) {
+      user.Settings.favorite_movies = response.data;
+      localStorage.setItem("user", JSON.stringify(user));
+      return response.data;
+    })
+    .catch(function (error) {
+      return { data: error.response.data, status: error.response.status };
     });
 
   return data;
@@ -130,6 +154,7 @@ const settingsService = {
   ToggleDMs,
   TogglePrivacy,
   ToggleAdultContent,
+  ManageFavoriteMovies,
 };
 
 export default settingsService;
