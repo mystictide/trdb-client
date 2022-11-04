@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { resetLoginState } from "../../features/helpers/accountModalSlice";
+import { resetLoginState } from "../../features/helpers/modalSlice";
 import Dashboard from "./dashboard";
 import Welcome from "./welcome";
 
@@ -10,7 +10,7 @@ function Home() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-  const { loginActive } = useSelector((state) => state.accountModal);
+  const { loginActive } = useSelector((state) => state.modals);
 
   useEffect(() => {
     if (user) {

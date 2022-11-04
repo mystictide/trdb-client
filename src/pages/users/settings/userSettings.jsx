@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import PersonalSettings from "../../../components/users/settings/personalSettings";
-import FilmSettings from "../../../components/users/settings/filmSettings";
-import ConnectionSettings from "../../../components/users/settings/connSettings";
-import NotificationSettings from "../../../components/users/settings/notifSettings";
-import ImportSettings from "../../../components/users/settings/importSettings";
+import PersonalSettings from "./personalSettings";
+import FilmSettings from "./filmSettings";
+import ConnectionSettings from "./connSettings";
+import NotificationSettings from "./notifSettings";
+import ImportSettings from "./importSettings";
 import { useNavigate } from "react-router-dom";
 
 function UserSettings() {
@@ -17,13 +17,12 @@ function UserSettings() {
     notif: false,
     imp: false,
   });
-  const { personal, film, conn, notif, imp } = panelData;
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    // if (!user) {
-    //   navigate("/");
-    // }
+    if (!user) {
+      navigate("/");
+    }
   }, [user, navigate, dispatch]);
 
   const setActivePanel = (e, panel) => {
@@ -40,31 +39,31 @@ function UserSettings() {
     if (panel === 1) {
       setPanelData((prevState) => ({
         ...prevState,
-        personal: !personal,
+        personal: true,
       }));
     }
     if (panel === 2) {
       setPanelData((prevState) => ({
         ...prevState,
-        film: !film,
+        film: true,
       }));
     }
     if (panel === 3) {
       setPanelData((prevState) => ({
         ...prevState,
-        conn: !conn,
+        conn: true,
       }));
     }
     if (panel === 4) {
       setPanelData((prevState) => ({
         ...prevState,
-        notif: !notif,
+        notif: true,
       }));
     }
     if (panel === 5) {
       setPanelData((prevState) => ({
         ...prevState,
-        imp: !imp,
+        imp: true,
       }));
     }
   };

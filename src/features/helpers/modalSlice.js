@@ -3,10 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   loginActive: false,
   registerActive: false,
+  searchActive: false,
 };
 
-export const accountModalSlice = createSlice({
-  name: "accountModal",
+export const modalSlice = createSlice({
+  name: "modals",
   initialState,
   reducers: {
     resetLoginState: (state) => {
@@ -15,11 +16,17 @@ export const accountModalSlice = createSlice({
     resetRegisterState: (state) => {
       state.registerActive = false;
     },
+    resetSearchState: (state) => {
+      state.searchActive = false;
+    },
     updateLoginState(state) {
       state.loginActive = !state.loginActive;
     },
     updateRegisterState(state) {
       state.registerActive = !state.registerActive;
+    },
+    updateSearchState(state) {
+      state.searchActive = !state.searchActive;
     },
   },
 });
@@ -29,5 +36,7 @@ export const {
   resetRegisterState,
   updateLoginState,
   updateRegisterState,
-} = accountModalSlice.actions;
-export default accountModalSlice.reducer;
+  resetSearchState,
+  updateSearchState,
+} = modalSlice.actions;
+export default modalSlice.reducer;

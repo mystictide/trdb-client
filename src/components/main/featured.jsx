@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GetPopularMovies, GetTopMovies } from "../../features/main/mainSlice";
 import PropagateLoader from "react-spinners/ClipLoader";
+import Poster from "./poster";
 
 function Featured() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { homepage } = useSelector((state) => state.main);
-  const url = "https://image.tmdb.org/t/p/w500";
 
   useEffect(() => {
     if (!homepage.popular) {
@@ -28,11 +28,7 @@ function Featured() {
             <ul>
               {homepage.popular.map((movie) => (
                 <li key={movie.id}>
-                  <div className="movie">
-                    <Link>
-                      <img src={url + movie.poster_path} alt={movie.title} />
-                    </Link>
-                  </div>
+                  <Poster movie={movie} />
                 </li>
               ))}
             </ul>
@@ -44,11 +40,7 @@ function Featured() {
             <ul>
               {homepage.top.map((movie) => (
                 <li key={movie.id}>
-                  <div className="movie">
-                    <Link>
-                      <img src={url + movie.poster_path} alt={movie.title} />
-                    </Link>
-                  </div>
+                  <Poster movie={movie} />
                 </li>
               ))}
             </ul>

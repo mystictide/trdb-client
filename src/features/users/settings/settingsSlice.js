@@ -36,6 +36,7 @@ export const UpdateAvatar = createAsyncThunk(
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -56,6 +57,7 @@ export const ToggleDMs = createAsyncThunk(
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -76,6 +78,7 @@ export const TogglePrivacy = createAsyncThunk(
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -96,6 +99,7 @@ export const ToggleAdultContent = createAsyncThunk(
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -107,6 +111,7 @@ export const ToggleAdultContent = createAsyncThunk(
     }
   }
 );
+
 export const ManageFavoriteMovies = createAsyncThunk(
   "settings/favorites",
   async (reqData, thunkAPI) => {
@@ -115,6 +120,7 @@ export const ManageFavoriteMovies = createAsyncThunk(
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
+      return response;
     } catch (error) {
       const message =
         (error.response &&

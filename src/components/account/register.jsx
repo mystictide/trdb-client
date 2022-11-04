@@ -8,7 +8,7 @@ import {
   checkExistingUsername,
 } from "../../features/auth/validationSlice";
 import { useNavigate } from "react-router-dom";
-import { accountModalSlice } from "../../features/helpers/accountModalSlice";
+import { modalSlice } from "../../features/helpers/modalSlice";
 import { FaTimes } from "react-icons/fa";
 
 function Register() {
@@ -107,7 +107,7 @@ function Register() {
           <h1>Join ReviewDB</h1>
           <FaTimes
             onClick={() => {
-              dispatch(accountModalSlice.actions.updateRegisterState());
+              dispatch(modalSlice.actions.updateRegisterState());
             }}
           />
         </section>

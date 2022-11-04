@@ -25,6 +25,7 @@ export const GetUserProfile = createAsyncThunk(
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -45,6 +46,7 @@ export const GetUserFollowing = createAsyncThunk(
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -65,6 +67,7 @@ export const GetUserFollowers = createAsyncThunk(
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -85,6 +88,7 @@ export const GetUserBlocklist = createAsyncThunk(
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -116,6 +120,7 @@ export const userSlice = createSlice({
       .addCase(GetUserProfile.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
         state.profile.personal = action.payload;
       })
       .addCase(GetUserProfile.rejected, (state, action) => {
@@ -131,6 +136,7 @@ export const userSlice = createSlice({
       .addCase(GetUserFollowing.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
         state.profile.following = action.payload;
       })
       .addCase(GetUserFollowing.rejected, (state, action) => {
@@ -146,6 +152,7 @@ export const userSlice = createSlice({
       .addCase(GetUserFollowers.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
         state.profile.followers = action.payload;
       })
       .addCase(GetUserFollowers.rejected, (state, action) => {
@@ -161,6 +168,7 @@ export const userSlice = createSlice({
       .addCase(GetUserBlocklist.fulfilled, (state, action) => {
         // state.isLoading = false;
         // state.isSuccess = true;
+        // state.isError = false;
         // state.profile.followers = action.payload;
       })
       .addCase(GetUserBlocklist.rejected, (state, action) => {

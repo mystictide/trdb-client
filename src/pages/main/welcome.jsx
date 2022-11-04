@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Featured from "../../components/main/featured";
 import Backdrop from "../../components/main/backdrop";
-import { accountModalSlice } from "../../features/helpers/accountModalSlice";
+import { modalSlice } from "../../features/helpers/modalSlice";
 
 function Welcome() {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ function Welcome() {
             <div className="functions">
               <button
                 onClick={() => {
-                  dispatch(accountModalSlice.actions.updateRegisterState());
+                  dispatch(modalSlice.actions.updateRegisterState());
                 }}
               >
                 COME ABOARD — AND SHARE!

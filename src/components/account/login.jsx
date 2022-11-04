@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login } from "../../features/auth/authSlice";
-import { accountModalSlice } from "../../features/helpers/accountModalSlice";
+import { modalSlice } from "../../features/helpers/modalSlice";
 import { FaTimes } from "react-icons/fa";
 
 function Login() {
@@ -50,7 +50,7 @@ function Login() {
           <h1>Come aboard</h1>
           <FaTimes
             onClick={() => {
-              dispatch(accountModalSlice.actions.updateLoginState());
+              dispatch(modalSlice.actions.updateLoginState());
             }}
           />
         </section>

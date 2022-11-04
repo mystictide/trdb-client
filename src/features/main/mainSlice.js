@@ -27,6 +27,7 @@ export const GetWeekly = createAsyncThunk(
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -47,6 +48,7 @@ export const GetPopularMovies = createAsyncThunk(
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -67,6 +69,7 @@ export const GetTopMovies = createAsyncThunk(
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -98,6 +101,7 @@ export const mainSlice = createSlice({
       .addCase(GetWeekly.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
         state.homepage.weekly = action.payload;
       })
       .addCase(GetWeekly.rejected, (state, action) => {
@@ -113,6 +117,7 @@ export const mainSlice = createSlice({
       .addCase(GetPopularMovies.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
         state.homepage.popular = action.payload;
       })
       .addCase(GetPopularMovies.rejected, (state, action) => {
@@ -128,6 +133,7 @@ export const mainSlice = createSlice({
       .addCase(GetTopMovies.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
         state.homepage.top = action.payload;
       })
       .addCase(GetTopMovies.rejected, (state, action) => {

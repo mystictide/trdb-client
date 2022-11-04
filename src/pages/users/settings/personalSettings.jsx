@@ -93,7 +93,7 @@ function PersonalSettings() {
   return (
     <>
       <h4>PERSONAL</h4>
-      <div className="tab personal">
+      <div className="tab multiple">
         <div className="profile">
           <form className="form-group" onSubmit={onPersonalSubmit}>
             <label>Username</label>

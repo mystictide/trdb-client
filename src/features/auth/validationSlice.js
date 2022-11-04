@@ -15,6 +15,7 @@ export const checkExistingUsername = createAsyncThunk(
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -35,6 +36,7 @@ export const checkExistingMail = createAsyncThunk(
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
+      return response;
     } catch (error) {
       const message =
         (error.response &&

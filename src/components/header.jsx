@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout, reset } from "../features/auth/authSlice";
-import { accountModalSlice } from "../features/helpers/accountModalSlice";
+import { modalSlice } from "../features/helpers/modalSlice";
 import RegisterModal from "./account/register";
 import LoginModal from "./account/login";
 import { BiSearch } from "react-icons/bi";
@@ -12,7 +12,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { loginActive, registerActive } = useSelector(
-    (state) => state.accountModal
+    (state) => state.modals
   );
 
   useEffect(() => {}, [user, loginActive, registerActive, navigate, dispatch]);
@@ -58,7 +58,7 @@ const Header = () => {
                   <li>
                     <button
                       onClick={() => {
-                        dispatch(accountModalSlice.actions.updateLoginState());
+                        dispatch(modalSlice.actions.updateLoginState());
                       }}
                     >
                       Sign in
@@ -68,7 +68,7 @@ const Header = () => {
                     <button
                       onClick={() => {
                         dispatch(
-                          accountModalSlice.actions.updateRegisterState()
+                          modalSlice.actions.updateRegisterState()
                         );
                       }}
                     >

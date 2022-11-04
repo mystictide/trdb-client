@@ -20,6 +20,7 @@ export const register = createAsyncThunk(
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -38,6 +39,7 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
     if (response.status === 500) {
       return thunkAPI.rejectWithValue(response);
     }
+    return response;
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -74,6 +76,7 @@ export const authSlice = createSlice({
       })
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
         state.user = action.payload;
       })
@@ -112,5 +115,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { reset, update} = authSlice.actions;
+export const { reset, update } = authSlice.actions;
 export default authSlice.reducer;
