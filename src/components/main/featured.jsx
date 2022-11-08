@@ -19,13 +19,14 @@ function Featured() {
       dispatch(GetTopMovies());
     }
   }, [homepage, navigate, dispatch]);
+  
 
   return (
     <>
       {homepage.popular && homepage.top ? (
         <div className="feature-wrap">
           <div className="featured">
-            <ul>
+            <ul className="feature-list">
               {homepage.popular.map((movie) => (
                 <li key={movie.id}>
                   <Poster movie={movie} />
@@ -37,7 +38,7 @@ function Featured() {
             <h3>Say a few words about the Artists you listen to</h3>
           </div>
           <div className="featured">
-            <ul>
+            <ul className="feature-list">
               {homepage.top.map((movie) => (
                 <li key={movie.id}>
                   <Poster movie={movie} />

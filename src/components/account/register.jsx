@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { register } from "../../features/auth/authSlice";
 import {
   checkExistingMail,
@@ -55,29 +54,27 @@ function Register() {
     dispatch,
   ]);
 
-  const onChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-    setTimeout(() => {
-      validateFields(e);
-    }, 1500);
-  };
+  useEffect(() => {
+    const validateUsername = setTimeout(() => {
+      if (username.length > 0) {
+        dispatch(checkExistingUsername(username));
+      }
+    }, 2000);
+    return () => clearTimeout(validateUsername);
+  }, [username, dispatch]);
 
-  const validateFields = (e) => {
-    if (e.target.name === "username") {
-      if (e.target.value.length > 0) {
-        dispatch(checkExistingUsername(e.target.value));
+  useEffect(() => {
+    const validateMail = setTimeout(() => {
+      if (email.length > 0) {
+        dispatch(checkExistingMail(email));
       }
-    }
-    if (e.target.name === "email") {
-      if (e.target.value.length > 0) {
-        dispatch(checkExistingMail(e.target.value));
-      }
-    }
-    if (e.target.name === "password") {
-      if (e.target.value.length > 6) {
+    }, 2000);
+    return () => clearTimeout(validateMail);
+  }, [email, dispatch]);
+
+  useEffect(() => {
+    const validatePassword = setTimeout(() => {
+      if (password.length > 6) {
         setFormValidation((prevState) => ({
           ...prevState,
           vPassword: false,
@@ -88,8 +85,9 @@ function Register() {
           vPassword: true,
         }));
       }
-    }
-  };
+    }, 2000);
+    return () => clearTimeout(validatePassword);
+  }, [password, dispatch]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -121,7 +119,13 @@ function Register() {
               name="username"
               value={username}
               placeholder="enter a username"
-              onChange={onChange}
+              // onChange={onChange}
+              onChange={(e) =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  [e.target.name]: e.target.value,
+                }))
+              }
             />
             {usernameExists ? (
               <label className="error">Username already exists</label>
@@ -136,7 +140,12 @@ function Register() {
               name="email"
               value={email}
               placeholder="enter an email address"
-              onChange={onChange}
+              onChange={(e) =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  [e.target.name]: e.target.value,
+                }))
+              }
             />
             {emailExists ? (
               <label className="error">Email address already registered</label>
@@ -151,7 +160,12 @@ function Register() {
               name="password"
               value={password}
               placeholder="set a password"
-              onChange={onChange}
+              onChange={(e) =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  [e.target.name]: e.target.value,
+                }))
+              }
             />
             {vPassword ? (
               <label className="error">

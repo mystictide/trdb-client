@@ -1,12 +1,14 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import Poster from "../../main/poster";
+import FilmFinder from "./filmFinder";
+import { modalSlice } from "../../../features/helpers/modalSlice";
+import { clearSearch } from "../../../features/main/mainSlice";
 import {
   AiOutlineClose,
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
 } from "react-icons/ai";
-import Poster from "../../main/poster";
-import FilmFinder from "./filmFinder";
 
 function FilmFavorites() {
   const dispatch = useDispatch();
@@ -33,19 +35,6 @@ function FilmFavorites() {
     // };
     // dispatch(ManageFavoriteMovies(reqData));
   };
-
-  // const updateMovie = (e) => {
-  //   const temp = movieFormData.movie.map((obj) => {
-  //     if (obj.tmdb_id === e) {
-  //       return { ...obj, tmdb_id: null };
-  //     }
-  //     return obj;
-  //   });
-  //   setMovieData((prevState) => ({
-  //     ...prevState,
-  //     movie: temp,
-  //   }));
-  // };
 
   const removeMovie = (id) => {
     setMovieData({
@@ -93,6 +82,22 @@ function FilmFavorites() {
     }
   };
 
+  const handleSelection = (selection) => {
+    const simpleMovie = {
+      id: null,
+      tmdb_id: selection.id,
+      order: movie.length + 1,
+      title: selection.title,
+      backdrop_path: selection.backdrop_path,
+      poster_path: selection.poster_path,
+    };
+    setMovieData((prevState) => ({
+      movie: [...prevState.movie, simpleMovie],
+    }));
+    dispatch(modalSlice.actions.updateSearchState());
+    dispatch(clearSearch());
+  };
+
   useEffect(() => {
     setMovieData((prevState) => ({
       ...prevState,
@@ -102,11 +107,11 @@ function FilmFavorites() {
 
   return (
     <>
-      <ul>
+      <ul className="favorite-list">
         {movie ? (
           <>
             {movie.map((movie, index) => (
-              <li key={movie.tmdb_id}>
+              <li className="favorite-item" key={movie.tmdb_id}>
                 {movie.tmdb_id ? (
                   <>
                     {/* <h6>{movie.order}</h6> */}
@@ -149,13 +154,13 @@ function FilmFavorites() {
                     )}
                   </>
                 ) : (
-                  <FilmFinder />
+                  <FilmFinder handleSelection={handleSelection} />
                 )}
               </li>
             ))}
             {[...Array(counter)].map((counter, index) => (
               <li key={index}>
-                <FilmFinder />
+                <FilmFinder handleSelection={handleSelection} />
               </li>
             ))}
           </>

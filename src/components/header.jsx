@@ -11,9 +11,7 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { loginActive, registerActive } = useSelector(
-    (state) => state.modals
-  );
+  const { loginActive, registerActive } = useSelector((state) => state.modals);
 
   useEffect(() => {}, [user, loginActive, registerActive, navigate, dispatch]);
 
@@ -31,7 +29,7 @@ const Header = () => {
             <>
               <Link to="/" className="logo" />
               <div className="main-nav">
-                <ul>
+                <ul className="nav-list">
                   <li>
                     <Link to="/me">{user.Username}</Link>
                   </li>
@@ -54,7 +52,7 @@ const Header = () => {
             <>
               <Link to="/" className="logo" />
               <div className="main-nav ">
-                <ul>
+                <ul className="nav-list">
                   <li>
                     <button
                       onClick={() => {
@@ -67,9 +65,7 @@ const Header = () => {
                   <li>
                     <button
                       onClick={() => {
-                        dispatch(
-                          modalSlice.actions.updateRegisterState()
-                        );
+                        dispatch(modalSlice.actions.updateRegisterState());
                       }}
                     >
                       Register

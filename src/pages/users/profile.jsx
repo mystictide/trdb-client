@@ -39,7 +39,7 @@ function UserProfile() {
             <h3>{profile.personal.Username}</h3>
           </div>
           <div className="functions">
-            <ul>
+            <ul className="function-list">
               <li>Profile</li>
               <li>Activity</li>
               <li>Films</li>

@@ -74,7 +74,7 @@ function UserSettings() {
         <div className="content">
           <h2>Settings</h2>
           <div className="settings-nav">
-            <ul id="panels">
+            <ul id="panels" className="settings-list">
               <li>
                 <button
                   className="active"

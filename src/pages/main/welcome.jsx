@@ -14,6 +14,7 @@ function Welcome() {
     el.classList.add("welcome-page");
     elHeader.classList.add("welcome-header");
   }, []);
+
   return (
     <>
       {!user ? <Backdrop /> : ""}

@@ -21,7 +21,12 @@ const GetWeekly = async () => {
 
   var data = await axios(config)
     .then(function (response) {
-      localStorage.setItem("weekly", JSON.stringify(response.data));
+      const cookies = new Cookies();
+      cookies.set("weekly", JSON.stringify(response.data), {
+        path: "/",
+        expires: setExpirationDate(2),
+      });
+
       return response.data;
     })
     .catch(function (error) {
@@ -77,10 +82,32 @@ const GetTopMovies = async () => {
   return data;
 };
 
+const SearchMovies = async (reqData) => {
+  var config = {
+    method: "get",
+    url: API_URL + "search/movie?Keyword=" + reqData.keyword,
+    headers: {
+      Authorization: "Bearer " + reqData.token,
+      "Content-Type": "application/json",
+    },
+  };
+
+  var data = await axios(config)
+    .then(function (response) {
+      // localStorage.setItem("movie_search", JSON.stringify(response.data));
+      return response.data;
+    })
+    .catch(function (error) {
+      return { data: error.response.data, status: error.response.status };
+    });
+  return data;
+};
+
 const mainService = {
   GetWeekly,
   GetPopularMovies,
   GetTopMovies,
+  SearchMovies,
 };
 
 export default mainService;

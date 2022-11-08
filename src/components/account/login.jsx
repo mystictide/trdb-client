@@ -22,7 +22,7 @@ function Login() {
     if (isError) {
       toast.error(message);
     }
-    if (isSuccess || user) {
+    if (isSuccess || (user !== null && user.Token !== null)) {
       navigate("/");
     }
   }, [user, isError, isSuccess, message, navigate, dispatch]);

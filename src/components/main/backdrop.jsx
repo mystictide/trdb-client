@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { GetWeekly } from "../../features/main/mainSlice";
-import datetimeDifference from "datetime-difference";
 
 function Backdrop() {
   const dispatch = useDispatch();
@@ -12,14 +11,6 @@ function Backdrop() {
   useEffect(() => {
     if (!homepage.weekly) {
       dispatch(GetWeekly());
-    } else {
-      const diff = datetimeDifference(
-        new Date(homepage.weekly.expires),
-        new Date()
-      );
-      if (diff.days < 1 && diff.hours < 1 && diff.minutes < 1) {
-        dispatch(GetWeekly());
-      }
     }
   }, [homepage, dispatch]);
 
@@ -37,7 +28,10 @@ function Backdrop() {
             ></div>
             <div className="backdrop-title">
               <h5>
-                <a href="/">{homepage.weekly.title}</a>
+                <a href="/">
+                  {homepage.weekly.title +
+                    ` (${homepage.weekly.release_date.substring(0, 4)})`}
+                </a>
               </h5>
             </div>
           </>

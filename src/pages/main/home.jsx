@@ -18,7 +18,7 @@ function Home() {
     }
   }, [user, loginActive, navigate, dispatch]);
 
-  if (user) {
+  if (user && user.Token !== null) {
     return <Dashboard />;
   }
   return (

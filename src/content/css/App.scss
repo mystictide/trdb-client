@@ -46,6 +46,30 @@ $flavor-color: #ffc18e;
     user-select: none;
 }
 
+@mixin scrollbar {
+    /* ===== Scrollbar CSS ===== */
+    /* Firefox */
+    * {
+        scrollbar-width: auto;
+        scrollbar-color: $main-light $main-color;
+    }
+
+    /* Chrome, Edge, and Safari */
+    *::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    *::-webkit-scrollbar-track {
+        background: $main-color;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background-color: $main-light;
+        // border-radius: 10px;
+        // border: 3px solid $bg-lighter;
+    }
+}
+
 * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -126,7 +150,7 @@ body {
                 position: absolute;
                 right: 20px;
                 top: 18px;
-                ul {
+                ul.nav-list {
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -226,6 +250,7 @@ body {
         .content {
             background-image: none;
             padding-top: 400px;
+            padding-bottom: 100px;
             .content-wrap {
                 display: flex;
                 flex-direction: column;
@@ -259,7 +284,7 @@ body {
                 .feature-wrap {
                     display: block;
                     .featured {
-                        ul {
+                        ul.feature-list {
                             display: flex;
                             justify-content: center;
                             column-gap: 10px;
@@ -408,7 +433,7 @@ body {
                 width: 100%;
             }
             .functions {
-                ul {
+                ul.function-list {
                     display: flex;
                     flex-direction: row;
                     justify-content: center;
@@ -430,7 +455,7 @@ body {
             }
             .settings-nav {
                 border-bottom: 2px solid $bg-lighter;
-                ul {
+                ul.settings-list {
                     display: flex;
                     flex-direction: row;
                     justify-content: flex-start;
@@ -474,12 +499,12 @@ body {
                     }
                     .favorites {
                         width: 100%;
-                        ul {
+                        ul.favorite-list {
                             display: flex;
                             flex-direction: row;
                             justify-content: center;
                             column-gap: 10px;
-                            li {
+                            li.favorite-item {
                                 display: inline-flex;
                                 @include transition();
                                 &:hover {
@@ -786,7 +811,7 @@ body {
                     }
                 }
 
-                .form-group {
+                .settings-form-group {
                     display: flex;
                     flex-direction: column;
                     row-gap: 10px;
@@ -978,8 +1003,9 @@ body {
             cursor: pointer;
             opacity: 0.5;
             position: absolute;
+            width: 400px;
             top: 70%;
-            left: 88%;
+            left: 85%;
             z-index: 55;
             a {
                 padding: 5px;
@@ -1056,6 +1082,128 @@ body {
                 transform: translateX(-50%);
                 width: 1200px;
                 z-index: 0;
+            }
+        }
+    }
+}
+
+.modal-container {
+    min-height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 23128;
+    .modal-overlay {
+        width: 100%;
+        min-height: 100vh;
+        cursor: auto;
+        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQMAAAAk8RryAAAABlBMVEUAAAD///+l2Z/dAAAAAnRSTlP/AOW3MEoAAAAOSURBVBiVY2AYBYMJAAABkAAB2POVPwAAAABJRU5ErkJggg==)
+            repeat 0 0;
+        opacity: 0.4;
+    }
+
+    .modal-content {
+        position: absolute;
+        background: $bg-lighter;
+        border-radius: 5px;
+        min-width: 400px;
+        padding: 1.7rem 2.5rem;
+        z-index: 9;
+
+        .heading {
+            font-size: 0.8rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            svg {
+                font-size: 1.8rem;
+                color: hsla(0, 0%, 100%, 0.5);
+                &:hover {
+                    color: $bg-main;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .search-form {
+            width: 100%;
+            font-size: 0.9rem;
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                row-gap: 0.8rem;
+
+                input {
+                    border: none;
+                    outline: none;
+                    border-radius: 5px;
+                    border-bottom-left-radius: 0;
+                    border-bottom-right-radius: 0;
+                    padding: 0.4rem 1rem;
+                    width: 100%;
+                    background-color: hsla(0, 0%, 100%, 0.5);
+                    font-size: 0.85rem;
+
+                    &:focus {
+                        background-color: $main-color;
+                    }
+                    &::placeholder {
+                        color: $main-color;
+                    }
+                }
+                button {
+                    background-color: hsla(0, 0%, 100%, 0.5);
+                    color: $main-color;
+                    border: 0;
+                    box-shadow: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    margin-top: 15px;
+                    padding: 0.5rem 2rem;
+                    width: 100%;
+                    @include transition();
+
+                    &:hover {
+                        background-color: $bg-darker;
+                        color: $main-color;
+                    }
+                }
+                .error {
+                    color: darkgoldenrod;
+                }
+            }
+        }
+        .search-results {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid $main-light;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            background-color: $bg-main;
+            width: 320px;
+            @include scrollbar();
+            .result-list {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                overflow-y: auto;
+                max-height: 300px;
+                li {
+                    font-size: 0.8rem;
+                    padding: 7px 5px;
+                    cursor: pointer;
+                    &:hover {
+                        background-color: $bg-lighter;
+                    }
+                }
             }
         }
     }
