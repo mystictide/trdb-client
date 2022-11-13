@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   loginActive: false,
   registerActive: false,
-  searchActive: false,
+  filmSearchActive: false,
+  actorSearchActive: false,
+  directorSearchActive: false,
 };
 
 export const modalSlice = createSlice({
@@ -17,7 +19,9 @@ export const modalSlice = createSlice({
       state.registerActive = false;
     },
     resetSearchState: (state) => {
-      state.searchActive = false;
+      state.filmSearchActive = false;
+      state.actorSearchActive = false;
+      state.directorSearchActive = false;
     },
     updateLoginState(state) {
       state.loginActive = !state.loginActive;
@@ -25,8 +29,14 @@ export const modalSlice = createSlice({
     updateRegisterState(state) {
       state.registerActive = !state.registerActive;
     },
-    updateSearchState(state) {
-      state.searchActive = !state.searchActive;
+    updateFilmSearchState(state) {
+      state.filmSearchActive = !state.filmSearchActive;
+    },
+    updateActorSearchState(state) {
+      state.actorSearchActive = !state.actorSearchActive;
+    },
+    updateDirectorSearchState(state) {
+      state.directorSearchActive = !state.directorSearchActive;
     },
   },
 });
@@ -37,6 +47,8 @@ export const {
   updateLoginState,
   updateRegisterState,
   resetSearchState,
-  updateSearchState,
+  updateFilmSearchState,
+  updateActorSearchState,
+  updateDirectorSearchState,
 } = modalSlice.actions;
 export default modalSlice.reducer;

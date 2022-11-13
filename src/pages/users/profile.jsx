@@ -21,7 +21,6 @@ function UserProfile() {
       dispatch(GetUserProfile(reqData));
     }
     if (profile.personal && !profile.following) {
-      console.log("test");
       const reqData = { id: profile.personal.ID };
       dispatch(GetUserFollowing(reqData));
     }

@@ -17,6 +17,7 @@ function UserSettings() {
     notif: false,
     imp: false,
   });
+  
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -85,7 +86,7 @@ function UserSettings() {
               </li>
               <li>
                 <button onClick={(e) => setActivePanel(e, 2)}>
-                  FILMS
+                  FAVORITES
                 </button>
               </li>
               <li>

@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AiFillPlusSquare } from "react-icons/ai";
 import { modalSlice } from "../../../features/helpers/modalSlice";
-import FilmSearch from "../../../components/helpers/filmSearch";
+import ActorSearch from "../../../components/helpers/actorSearch";
 
-function FilmFinder({ handleSelection }) {
+function ActorFinder({ handleSelection }) {
   const dispatch = useDispatch();
-  const { filmSearchActive } = useSelector((state) => state.modals);
+  const { actorSearchActive } = useSelector((state) => state.modals);
 
-  useEffect(() => {}, [filmSearchActive, dispatch]);
+  useEffect(() => {}, [actorSearchActive, dispatch]);
 
   return (
     <>
@@ -17,15 +17,15 @@ function FilmFinder({ handleSelection }) {
           type="button"
           className="search-button"
           onClick={() => {
-            dispatch(modalSlice.actions.updateFilmSearchState());
+            dispatch(modalSlice.actions.updateActorSearchState());
           }}
         >
           <AiFillPlusSquare />
         </button>
       </div>
-      {filmSearchActive ? <FilmSearch handleSelection={handleSelection} /> : ""}
+      {actorSearchActive ? <ActorSearch handleSelection={handleSelection} /> : ""}
     </>
   );
 }
 
-export default FilmFinder;
+export default ActorFinder;

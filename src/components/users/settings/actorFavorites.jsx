@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Poster from "../../main/poster";
-import FilmFinder from "./filmFinder";
+import Person from "../../main/person";
+import ActorFinder from "./actorFinder";
 import { modalSlice } from "../../../features/helpers/modalSlice";
 import { clearSearch } from "../../../features/main/mainSlice";
-import { ManageFavoriteMovies } from "../../../features/users/settings/settingsSlice";
+import { ManageFavoriteActors } from "../../../features/users/settings/settingsSlice";
 import {
   AiOutlineClose,
   AiOutlineArrowLeft,
@@ -12,37 +12,37 @@ import {
   AiOutlineCheck,
 } from "react-icons/ai";
 
-function FilmFavorites() {
+function ActorFavorites() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-  const [movieFormData, setMovieData] = useState({
-    movie:
-      user.Settings.favorite_movies.length > 0
-        ? user.Settings.favorite_movies
+  const [actorFormData, setActorData] = useState({
+    actor:
+      user.Settings.favorite_actors.length > 0
+        ? user.Settings.favorite_actors
         : [],
     counter:
-      user.Settings.favorite_movies.length - 4 >= 0
-        ? user.Settings.favorite_movies.length - 4
+      user.Settings.favorite_actors.length - 4 >= 0
+        ? user.Settings.favorite_actors.length - 4
         : 0,
   });
   const [updateState, setUpdateState] = useState(false);
 
-  const { movie, counter } = movieFormData;
+  const { actor, counter } = actorFormData;
 
   const submitFavorites = (e) => {
     const reqData = {
-      movies: movie,
+      actors: actor,
       token: user.Token,
     };
-    dispatch(ManageFavoriteMovies(reqData));
+    dispatch(ManageFavoriteActors(reqData));
   };
 
-  const removeMovie = (id, order) => {
-    setMovieData({
-      movie: movie
-        .filter(function (movie) {
-          return movie.order !== order;
+  const removeactor = (id, order) => {
+    setActorData({
+      actor: actor
+        .filter(function (actor) {
+          return actor.order !== order;
         })
         .map((obj, index) => {
           return { ...obj, order: index + 1 };
@@ -55,8 +55,8 @@ function FilmFavorites() {
     //if ascend true, subtract from obj.order
     //if ascend false, index to obj.order
     if (ascend) {
-      setMovieData({
-        movie: movie
+      setActorData({
+        actor: actor
           .map((obj, i) => {
             if (i === index) {
               return { ...obj, order: obj.order - 1 };
@@ -69,8 +69,8 @@ function FilmFavorites() {
           .sort((a, b) => (a.order > b.order ? 1 : -1)),
       });
     } else {
-      setMovieData({
-        movie: movie
+      setActorData({
+        actor: actor
           .map((obj, i) => {
             if (i === index) {
               return { ...obj, order: obj.order + 1 };
@@ -87,61 +87,59 @@ function FilmFavorites() {
   };
 
   const handleSelection = (selection) => {
-    const simpleMovie = {
+    const simpleactor = {
       id: 0,
       tmdb_id: selection.id,
-      order: movie.length > 0 ? movie.length + 1 : 1,
-      title: selection.title,
-      backdrop_path: selection.backdrop_path,
-      poster_path: selection.poster_path,
+      order: actor.length > 0 ? actor.length + 1 : 1,
+      name: selection.name,
+      profile_path: selection.profile_path,
     };
-    setMovieData((prevState) => ({
-      movie: [...prevState.movie, simpleMovie],
+    setActorData((prevState) => ({
+      actor: [...prevState.actor, simpleactor],
     }));
     setUpdateState(true);
-    dispatch(modalSlice.actions.updateFilmSearchState());
+    dispatch(modalSlice.actions.updateActorSearchState());
     dispatch(clearSearch());
   };
 
   useEffect(() => {
-    if (movie) {
-      setMovieData((prevState) => ({
+    if (actor) {
+      setActorData((prevState) => ({
         ...prevState,
-        counter: 4 - movie.length,
+        counter: 4 - actor.length,
       }));
     }
-  }, [movie, dispatch]);
+  }, [actor, dispatch]);
 
   return (
     <>
       <div className="fav-nav">
-        <h4>FAVORITE FILMS</h4>
+        <h4>FAVORITE ACTORS</h4>
       </div>
 
       <ul className="favorite-list">
-        {movie ? (
+        {actor ? (
           <>
-            {movie.map((movie, index) => (
-              <li className="favorite-item" key={movie.tmdb_id + index}>
-                {movie.tmdb_id ? (
+            {actor.map((actor, index) => (
+              <li className="favorite-item" key={actor.tmdb_id + index}>
+                {actor.tmdb_id ? (
                   <>
-                    {/* <h6>{movie.order}</h6> */}
-                    <Poster movie={movie} />
+                    <Person actor={actor} />
                     <button
                       className="remove-button"
                       type="button"
                       onClick={(e) => {
-                        removeMovie(movie.tmdb_id, movie.order);
+                        removeactor(actor.tmdb_id, actor.order);
                       }}
                     >
                       <AiOutlineClose />
                     </button>
-                    {movie.order > 1 ? (
+                    {actor.order > 1 ? (
                       <button
                         className="sort-button left"
                         type="button"
                         onClick={(e) => {
-                          changeOrder(movie.tmdb_id, index, true);
+                          changeOrder(actor.tmdb_id, index, true);
                         }}
                       >
                         <AiOutlineArrowLeft />
@@ -149,13 +147,13 @@ function FilmFavorites() {
                     ) : (
                       ""
                     )}
-                    {movie.order < 4 &&
-                    movieFormData.movie.length - movie.order !== 0 ? (
+                    {actor.order < 4 &&
+                    actorFormData.actor.length - actor.order !== 0 ? (
                       <button
                         className="sort-button right"
                         type="button"
                         onClick={(e) => {
-                          changeOrder(movie.tmdb_id, index, false);
+                          changeOrder(actor.tmdb_id, index, false);
                         }}
                       >
                         <AiOutlineArrowRight />
@@ -165,29 +163,29 @@ function FilmFavorites() {
                     )}
                   </>
                 ) : (
-                  <FilmFinder handleSelection={handleSelection} />
+                  <ActorFinder handleSelection={handleSelection} />
                 )}
               </li>
             ))}
             {[...Array(counter)].map((counter, index) => (
               <li key={index}>
-                <FilmFinder handleSelection={handleSelection} />
+                <ActorFinder handleSelection={handleSelection} />
               </li>
             ))}
           </>
         ) : (
           <>
             <li>
-              <FilmFinder handleSelection={handleSelection} />
+              <ActorFinder handleSelection={handleSelection} />
             </li>
             <li>
-              <FilmFinder handleSelection={handleSelection} />
+              <ActorFinder handleSelection={handleSelection} />
             </li>
             <li>
-              <FilmFinder handleSelection={handleSelection} />
+              <ActorFinder handleSelection={handleSelection} />
             </li>
             <li>
-              <FilmFinder handleSelection={handleSelection} />
+              <ActorFinder handleSelection={handleSelection} />
             </li>
           </>
         )}
@@ -209,4 +207,4 @@ function FilmFavorites() {
   );
 }
 
-export default FilmFavorites;
+export default ActorFavorites;

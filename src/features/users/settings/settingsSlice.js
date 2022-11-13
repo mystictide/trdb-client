@@ -70,6 +70,27 @@ export const ToggleDMs = createAsyncThunk(
   }
 );
 
+export const ToggleWatchlist = createAsyncThunk(
+  "settings/watchlist",
+  async (reqData, thunkAPI) => {
+    try {
+      const response = await settingsService.ToggleWatchlist(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
+      return response;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const TogglePrivacy = createAsyncThunk(
   "settings/privacy",
   async (reqData, thunkAPI) => {
@@ -113,10 +134,52 @@ export const ToggleAdultContent = createAsyncThunk(
 );
 
 export const ManageFavoriteMovies = createAsyncThunk(
-  "settings/favorites",
+  "settings/favorites/movies",
   async (reqData, thunkAPI) => {
     try {
       const response = await settingsService.ManageFavoriteMovies(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
+      return response;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const ManageFavoriteActors = createAsyncThunk(
+  "settings/favorites/actors",
+  async (reqData, thunkAPI) => {
+    try {
+      const response = await settingsService.ManageFavoriteActors(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
+      return response;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const ManageFavoriteDirectors = createAsyncThunk(
+  "settings/favorites/directors",
+  async (reqData, thunkAPI) => {
+    try {
+      const response = await settingsService.ManageFavoriteDirectors(reqData);
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
@@ -138,7 +201,6 @@ export const settingsSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => {
-      state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
       state.message = "";
@@ -191,6 +253,36 @@ export const settingsSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
+      .addCase(ManageFavoriteActors.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+      })
+      .addCase(ManageFavoriteActors.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+      })
+      .addCase(ManageFavoriteActors.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(ManageFavoriteDirectors.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+      })
+      .addCase(ManageFavoriteDirectors.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+      })
+      .addCase(ManageFavoriteDirectors.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
       .addCase(ToggleDMs.pending, (state) => {
         state.isLoading = true;
         state.isSuccess = false;
@@ -201,6 +293,21 @@ export const settingsSlice = createSlice({
         state.isError = false;
       })
       .addCase(ToggleDMs.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(ToggleWatchlist.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+      })
+      .addCase(ToggleWatchlist.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+      })
+      .addCase(ToggleWatchlist.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;

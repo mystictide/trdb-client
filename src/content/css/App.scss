@@ -115,6 +115,7 @@ body {
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        // min-height: 250px;
     }
 
     header {
@@ -149,12 +150,14 @@ body {
             .main-nav {
                 position: absolute;
                 right: 20px;
-                top: 18px;
+                top: 20px;
                 ul.nav-list {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-
+                    li.search {
+                        cursor: pointer;
+                    }
                     li,
                     button {
                         display: block;
@@ -187,7 +190,7 @@ body {
                     }
                 }
 
-                .search-form {
+                .search-box {
                     width: 150px;
                     height: 40px;
 
@@ -221,6 +224,11 @@ body {
                             position: absolute;
                             top: 4px;
                             right: -5px;
+                        }
+
+                        .cancel {
+                            top: 4px;
+                            right: 130px;
                         }
                     }
                 }
@@ -289,7 +297,46 @@ body {
                             justify-content: center;
                             column-gap: 10px;
                             li {
+                                position: relative;
                                 display: inline-flex;
+                                &:hover {
+                                    .poster-title {
+                                        display: flex;
+                                        flex-direction: row;
+                                        justify-content: center;
+                                        align-items: center;
+                                    }
+                                }
+
+                                .poster-title {
+                                    display: none;
+                                    position: absolute;
+                                    top: -27px;
+                                    left: 0;
+                                    z-index: 1;
+                                    opacity: 0.9;
+                                    width: 150px;
+                                    &:after {
+                                        top: 100%;
+                                        left: 50%;
+                                        border: solid transparent;
+                                        content: "";
+                                        height: 0;
+                                        width: 0;
+                                        position: absolute;
+                                        border-top-color: $bg-lighter;
+                                        border-width: 8px;
+                                        margin-left: -8px;
+                                    }
+                                    span {
+                                        padding: 6px;
+                                        text-align: center;
+                                        font-size: 75%;
+                                        white-space: nowrap;
+                                        border-radius: 5px;
+                                        background: $bg-lighter;
+                                    }
+                                }
                             }
                         }
                     }
@@ -498,13 +545,22 @@ body {
                         text-align: center;
                     }
                     .favorites {
+                        @include no-select();
                         width: 100%;
+                        .fav-nav {
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: center;
+                            align-items: center;
+                        }
                         ul.favorite-list {
                             display: flex;
                             flex-direction: row;
                             justify-content: center;
+                            align-items: flex-start;
                             column-gap: 10px;
                             li.favorite-item {
+                                position: relative;
                                 display: inline-flex;
                                 @include transition();
                                 &:hover {
@@ -525,8 +581,14 @@ body {
                                     .sort-button {
                                         display: flex;
                                     }
+                                    .poster-title {
+                                        display: flex;
+                                        flex-direction: row;
+                                        justify-content: center;
+                                        align-items: center;
+                                        left: 15px;
+                                    }
                                 }
-
                                 .remove-button {
                                     border: none;
                                     outline: none;
@@ -585,6 +647,55 @@ body {
                                 .sort-button.right {
                                     margin-left: 135px;
                                     border-radius: 5px;
+                                }
+                                .poster-title {
+                                    display: none;
+                                    position: absolute;
+                                    top: -27px;
+                                    left: 0;
+                                    z-index: 1;
+                                    opacity: 0.9;
+                                    width: 150px;
+                                    &:after {
+                                        top: 100%;
+                                        left: 50%;
+                                        border: solid transparent;
+                                        content: "";
+                                        height: 0;
+                                        width: 0;
+                                        position: absolute;
+                                        border-top-color: $bg-lighter;
+                                        border-width: 8px;
+                                        margin-left: -8px;
+                                    }
+                                    span {
+                                        padding: 6px;
+                                        text-align: center;
+                                        font-size: 75%;
+                                        white-space: nowrap;
+                                        border-radius: 5px;
+                                        background: $bg-lighter;
+                                    }
+                                }
+                            }
+                            .save-button {
+                                align-self: center;
+                                border: none;
+                                background: $bg-main;
+                                padding: 0;
+                                width: 55px;
+                                height: 55px;
+                                border-radius: 50px;
+                                color: $main-light;
+                                svg {
+                                    font-size: 2rem;
+                                }
+                                @include transition();
+                                &:hover {
+                                    cursor: pointer;
+                                    color: $main-color;
+                                    background: $bg-lighter;
+                                    opacity: 0.5;
                                 }
                             }
                         }
@@ -857,7 +968,10 @@ body {
                     display: flex;
                     flex-direction: column;
                     align-items: flex-end;
+                    row-gap: 10px;
+                    margin-top: 15px;
                     .form-group.check {
+                        display: flex;
                         flex-direction: row;
                         column-gap: 10px;
                         input[type="checkbox"] {
@@ -901,6 +1015,9 @@ body {
     }
 
     .movie-poster {
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
         border-radius: 5px;
         a {
             display: block;
@@ -917,6 +1034,75 @@ body {
                 img {
                     border: 3px solid $main-light;
                     border-radius: 5px;
+                }
+            }
+        }
+    }
+
+    .browser {
+        margin: 0 auto;
+        width: 950px;
+        .browser-content {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-start;
+            column-gap: 5%;
+            .headers {
+                display: block;
+                width: 100%;
+                font-size: 0.9rem;
+                border-bottom: 2px solid $bg-lighter;
+                border-radius: 5px;
+                margin-bottom: 7px;
+                padding-bottom: 5px;
+            }
+            .matches {
+                width: 70%;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                .match {
+                    display: block;
+                    width: 100%;
+                    padding: 15px 0;
+                    border-bottom: 1px solid $bg-lighter;
+                    .poster-title {
+                        display: none;
+                    }
+                    .movie-poster {
+                        display: inline-flex;
+                        a {
+                            img {
+                                height: 110px;
+                                width: 75px;
+                                border: 1px solid $bg-lighter;
+                                border-radius: 5px;
+                                @include transition();
+                            }
+                            &:hover {
+                                img {
+                                    border: 2px solid $main-light;
+                                    border-radius: 5px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .filters {
+                width: 25%;
+                .filter-nav {
+                    li {
+                        font-size: 0.8em;
+                        padding: 6px 10px;
+                        &:hover {
+                            cursor: pointer;
+                            border-radius: 7px;
+                            background: linear-gradient(90deg, $bg-lighter 0%, rgba(62, 44, 65, 0) 70%);
+                        }
+                    }
                 }
             }
         }
@@ -1203,6 +1389,38 @@ body {
                     &:hover {
                         background-color: $bg-lighter;
                     }
+                }
+            }
+        }
+    }
+}
+
+.pager-container {
+    display: block;
+    width: 100%;
+    .pager-list {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        padding-top: 15px;
+        column-gap: 5px;
+        .pager-item {
+            .pager-button {
+                align-self: center;
+                border: none;
+                background: $bg-main;
+                padding: 10px 15px;
+                border-radius: 5px;
+                color: $main-light;
+                svg {
+                    font-size: 2rem;
+                }
+                @include transition();
+                &:hover {
+                    cursor: pointer;
+                    color: $main-color;
+                    background: $bg-lighter;
+                    opacity: 0.7;
                 }
             }
         }

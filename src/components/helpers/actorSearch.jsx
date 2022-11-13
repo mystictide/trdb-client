@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { SearchMovies } from "../../features/main/mainSlice";
+import { SearchActors } from "../../features/main/mainSlice";
 import { modalSlice } from "../../features/helpers/modalSlice";
 import { FaTimes } from "react-icons/fa";
 
-function FilmSearch({ handleSelection }) {
+function ActorSearch({ handleSelection }) {
   const dispatch = useDispatch();
   const [searchData, setSearchData] = useState({
     keyword: "",
@@ -25,13 +25,13 @@ function FilmSearch({ handleSelection }) {
   }, [user, keyword, search, isError, isSuccess, message, dispatch]);
 
   useEffect(() => {
-    const searchMovie = setTimeout(() => {
+    const searchActor = setTimeout(() => {
       if (keyword.length > 0) {
         const reqData = { keyword: keyword, token: user.Token };
-        dispatch(SearchMovies(reqData));
+        dispatch(SearchActors(reqData));
       }
     }, 2000);
-    return () => clearTimeout(searchMovie);
+    return () => clearTimeout(searchActor);
   }, [keyword, user, dispatch]);
 
   return (
@@ -42,7 +42,7 @@ function FilmSearch({ handleSelection }) {
           <h1>PICK A FAVORITE</h1>
           <FaTimes
             onClick={() => {
-              dispatch(modalSlice.actions.updateFilmSearchState());
+              dispatch(modalSlice.actions.updateActorSearchState());
             }}
           />
         </section>
@@ -53,7 +53,7 @@ function FilmSearch({ handleSelection }) {
               e.preventDefault();
             }}
           >
-            <label>Name of film</label>
+            <label>Name of actor</label>
             <input
               type="keyword"
               className="form-control"
@@ -69,12 +69,12 @@ function FilmSearch({ handleSelection }) {
             />
           </form>
         </section>
-        {isSuccess && search.movies.data ? (
+        {isSuccess && search.actors.data ? (
           <section className="search-results">
             <ul className="result-list">
-              {search.movies.data.map((movie) => (
-                <li key={movie.id} onClick={(e) => handleSelection(movie)}>
-                  {movie.title + ` (${movie.release_date.substring(0, 4)})`}
+              {search.actors.data.map((actor) => (
+                <li key={actor.id} onClick={(e) => handleSelection(actor)}>
+                  {actor.name}
                 </li>
               ))}
             </ul>
@@ -87,4 +87,4 @@ function FilmSearch({ handleSelection }) {
   );
 }
 
-export default FilmSearch;
+export default ActorSearch;

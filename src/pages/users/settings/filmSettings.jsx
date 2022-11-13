@@ -1,40 +1,45 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { update } from "../../../features/auth/authSlice";
-import { ManageFavoriteMovies } from "../../../features/users/settings/settingsSlice";
+import { reset } from "../../../features/users/settings/settingsSlice";
 import FilmFavorites from "../../../components/users/settings/filmFavorites";
+import ActorFavorites from "../../../components/users/settings/actorFavorites";
+import DirectorFavorites from "../../../components/users/settings/directorFavorites";
 import { toast } from "react-toastify";
 
 function FilmSettings() {
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => state.auth);
   const { isError, isSuccess } = useSelector((state) => state.settings);
 
   useEffect(() => {
     if (isError) {
       toast("Something went wrong!");
+      dispatch(reset());
     }
     if (!isError & isSuccess) {
       dispatch(update());
       toast("Settings saved!");
+      dispatch(reset());
     }
   }, [isError, isSuccess, dispatch]);
 
   return (
     <>
       <div className="tab single">
-        <h4>FAVORITE FILMS</h4>
         <div className="favorites">
           <FilmFavorites />
         </div>
       </div>
       <div className="tab single">
-        <h4>FAVORITE ACTORS</h4>
+        <div className="favorites">
+          <ActorFavorites />
+        </div>
       </div>
       <div className="tab single">
-        <h4>FAVORITE DIRECTORS</h4>
+        <div className="favorites">
+          <DirectorFavorites />
+        </div>
       </div>
     </>
   );

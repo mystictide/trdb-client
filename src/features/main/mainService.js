@@ -82,6 +82,31 @@ const GetTopMovies = async () => {
   return data;
 };
 
+const Browse = async (reqData) => {
+  let page;
+  if (reqData.page > 1) {
+    page = reqData.page;
+  } else {
+    page = 1;
+  }
+  var config = {
+    method: "get",
+    url: API_URL + "browse/?Keyword=" + reqData.keyword + "&page=" + page,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  var data = await axios(config)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      return { data: error.response.data, status: error.response.status };
+    });
+  return data;
+};
+
 const SearchMovies = async (reqData) => {
   var config = {
     method: "get",
@@ -103,11 +128,54 @@ const SearchMovies = async (reqData) => {
   return data;
 };
 
+const SearchActors = async (reqData) => {
+  var config = {
+    method: "get",
+    url: API_URL + "search/actor?Keyword=" + reqData.keyword,
+    headers: {
+      Authorization: "Bearer " + reqData.token,
+      "Content-Type": "application/json",
+    },
+  };
+
+  var data = await axios(config)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      return { data: error.response.data, status: error.response.status };
+    });
+  return data;
+};
+
+const SearchDirectors = async (reqData) => {
+  var config = {
+    method: "get",
+    url: API_URL + "search/director?Keyword=" + reqData.keyword,
+    headers: {
+      Authorization: "Bearer " + reqData.token,
+      "Content-Type": "application/json",
+    },
+  };
+
+  var data = await axios(config)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      return { data: error.response.data, status: error.response.status };
+    });
+  return data;
+};
+
 const mainService = {
   GetWeekly,
   GetPopularMovies,
   GetTopMovies,
+  Browse,
   SearchMovies,
+  SearchActors,
+  SearchDirectors,
 };
 
 export default mainService;

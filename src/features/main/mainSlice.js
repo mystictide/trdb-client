@@ -13,8 +13,11 @@ const initialState = {
     popular: popular ? popular : null,
     top: top ? top : null,
   },
+  browse: null,
   search: {
     movies: null,
+    actors: null,
+    directors: null,
   },
   isError: false,
   isSuccess: false,
@@ -85,11 +88,74 @@ export const GetTopMovies = createAsyncThunk(
   }
 );
 
+export const Browse = createAsyncThunk(
+  "main/browse",
+  async (reqData, thunkAPI) => {
+    try {
+      const response = await mainService.Browse(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
+      return response;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const SearchMovies = createAsyncThunk(
   "main/search/movie",
   async (reqData, thunkAPI) => {
     try {
       const response = await mainService.SearchMovies(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
+      return response;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const SearchActors = createAsyncThunk(
+  "main/search/actor",
+  async (reqData, thunkAPI) => {
+    try {
+      const response = await mainService.SearchActors(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
+      return response;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const SearchDirectors = createAsyncThunk(
+  "main/search/director",
+  async (reqData, thunkAPI) => {
+    try {
+      const response = await mainService.SearchDirectors(reqData);
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
@@ -118,6 +184,13 @@ export const mainSlice = createSlice({
     },
     clearSearch: (state) => {
       state.search.movies = null;
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = false;
+      state.message = "";
+    },
+    clearBrowser: (state) => {
+      state.browse = null;
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
@@ -174,6 +247,22 @@ export const mainSlice = createSlice({
         state.message = action.payload;
         state.homepage.top = null;
       })
+      .addCase(Browse.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(Browse.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.browse = action.payload;
+      })
+      .addCase(Browse.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.browse = null;
+      })
       .addCase(SearchMovies.pending, (state) => {
         state.isLoading = true;
       })
@@ -189,9 +278,41 @@ export const mainSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.search.movies = null;
+      })
+      .addCase(SearchActors.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(SearchActors.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.search.actors = action.payload;
+      })
+      .addCase(SearchActors.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.search.actors = null;
+      })
+      .addCase(SearchDirectors.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(SearchDirectors.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.search.directors = action.payload;
+      })
+      .addCase(SearchDirectors.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.search.directors = null;
       });
   },
 });
 
-export const { reset, clearSearch} = mainSlice.actions;
+export const { reset, clearSearch, clearBrowser } = mainSlice.actions;
 export default mainSlice.reducer;

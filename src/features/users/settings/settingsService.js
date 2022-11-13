@@ -78,6 +78,29 @@ const ToggleDMs = async (reqData) => {
   return data;
 };
 
+const ToggleWatchlist = async (reqData) => {
+  var config = {
+    method: "post",
+    url: API_URL + "watchlist",
+    headers: {
+      Authorization: "Bearer " + reqData,
+      "Content-Type": "application/json",
+    },
+  };
+
+  var data = await axios(config)
+    .then(function (response) {
+      user.Settings.watchlist_public = response.data;
+      localStorage.setItem("user", JSON.stringify(user));
+      return response.data;
+    })
+    .catch(function (error) {
+      return { data: error.response.data, status: error.response.status };
+    });
+
+  return data;
+};
+
 const TogglePrivacy = async (reqData) => {
   var config = {
     method: "post",
@@ -127,12 +150,12 @@ const ToggleAdultContent = async (reqData) => {
 const ManageFavoriteMovies = async (reqData) => {
   var config = {
     method: "post",
-    url: API_URL + "favorites",
+    url: API_URL + "favorites/movies",
     headers: {
       Authorization: "Bearer " + reqData.token,
       "Content-Type": "application/json",
     },
-    data: JSON.stringify(reqData.data),
+    data: JSON.stringify(reqData.movies),
   };
 
   var data = await axios(config)
@@ -142,6 +165,57 @@ const ManageFavoriteMovies = async (reqData) => {
       return response.data;
     })
     .catch(function (error) {
+      console.log(error);
+      return { data: error.response.data, status: error.response.status };
+    });
+
+  return data;
+};
+
+const ManageFavoriteActors = async (reqData) => {
+  var config = {
+    method: "post",
+    url: API_URL + "favorites/actors",
+    headers: {
+      Authorization: "Bearer " + reqData.token,
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify(reqData.actors),
+  };
+
+  var data = await axios(config)
+    .then(function (response) {
+      user.Settings.favorite_actors = response.data;
+      localStorage.setItem("user", JSON.stringify(user));
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+      return { data: error.response.data, status: error.response.status };
+    });
+
+  return data;
+};
+
+const ManageFavoriteDirectors = async (reqData) => {
+  var config = {
+    method: "post",
+    url: API_URL + "favorites/directors",
+    headers: {
+      Authorization: "Bearer " + reqData.token,
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify(reqData.directors),
+  };
+
+  var data = await axios(config)
+    .then(function (response) {
+      user.Settings.favorite_directors = response.data;
+      localStorage.setItem("user", JSON.stringify(user));
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
       return { data: error.response.data, status: error.response.status };
     });
 
@@ -152,9 +226,12 @@ const settingsService = {
   UpdatePersonal,
   UpdateAvatar,
   ToggleDMs,
+  ToggleWatchlist,
   TogglePrivacy,
   ToggleAdultContent,
   ManageFavoriteMovies,
+  ManageFavoriteActors,
+  ManageFavoriteDirectors,
 };
 
 export default settingsService;

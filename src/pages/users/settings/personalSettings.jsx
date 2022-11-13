@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import MediaUploader from "../../../components/helpers/mediaUploader";
 import { update } from "../../../features/auth/authSlice";
+import { reset } from "../../../features/users/settings/settingsSlice";
 import {
   UpdatePersonal,
   ToggleDMs,
+  ToggleWatchlist,
   TogglePrivacy,
   ToggleAdultContent,
 } from "../../../features/users/settings/settingsSlice";
@@ -35,10 +37,12 @@ function PersonalSettings() {
   useEffect(() => {
     if (isError) {
       toast("Something went wrong!");
+      dispatch(reset());
     }
     if (!isError & isSuccess) {
       dispatch(update());
       toast("Settings saved!");
+      dispatch(reset());
     }
   }, [isError, isSuccess, dispatch]);
 
@@ -80,6 +84,10 @@ function PersonalSettings() {
 
   const onDMChange = (e) => {
     dispatch(ToggleDMs(user.Token));
+  };
+
+  const onWatchlistChange = (e) => {
+    dispatch(ToggleWatchlist(user.Token));
   };
 
   const onPrivacyChange = (e) => {
@@ -164,6 +172,18 @@ function PersonalSettings() {
                 checked={user.Settings.dmallowed ?? 0}
                 value={user.Settings.dmallowed ?? 0}
                 onChange={onDMChange}
+              />
+            </form>
+            <form className="form-group check">
+              <label>Public watchlist</label>
+              <input
+                type="checkbox"
+                className="form-control"
+                id="watchlist"
+                name="watchlist"
+                checked={user.Settings.watchlist_public ?? 0}
+                value={user.Settings.watchlist_public ?? 0}
+                onChange={onWatchlistChange}
               />
             </form>
             <form className="form-group check">
