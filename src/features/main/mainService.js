@@ -36,7 +36,7 @@ const GetWeekly = async () => {
   return data;
 };
 
-const GetPopularMovies = async () => {
+const GetPopularFilms = async () => {
   var config = {
     method: "get",
     url: API_URL + "get/popular",
@@ -59,7 +59,7 @@ const GetPopularMovies = async () => {
   return data;
 };
 
-const GetTopMovies = async () => {
+const GetTopFilms = async () => {
   var config = {
     method: "get",
     url: API_URL + "get/top",
@@ -107,10 +107,10 @@ const Browse = async (reqData) => {
   return data;
 };
 
-const SearchMovies = async (reqData) => {
+const SearchFilms = async (reqData) => {
   var config = {
     method: "get",
-    url: API_URL + "search/movie?Keyword=" + reqData.keyword,
+    url: API_URL + "search/film?Keyword=" + reqData.keyword,
     headers: {
       Authorization: "Bearer " + reqData.token,
       "Content-Type": "application/json",
@@ -119,7 +119,6 @@ const SearchMovies = async (reqData) => {
 
   var data = await axios(config)
     .then(function (response) {
-      // localStorage.setItem("movie_search", JSON.stringify(response.data));
       return response.data;
     })
     .catch(function (error) {
@@ -170,10 +169,10 @@ const SearchDirectors = async (reqData) => {
 
 const mainService = {
   GetWeekly,
-  GetPopularMovies,
-  GetTopMovies,
+  GetPopularFilms,
+  GetTopFilms,
   Browse,
-  SearchMovies,
+  SearchFilms,
   SearchActors,
   SearchDirectors,
 };

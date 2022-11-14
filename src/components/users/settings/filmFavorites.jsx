@@ -4,7 +4,7 @@ import Poster from "../../main/poster";
 import FilmFinder from "./filmFinder";
 import { modalSlice } from "../../../features/helpers/modalSlice";
 import { clearSearch } from "../../../features/main/mainSlice";
-import { ManageFavoriteMovies } from "../../../features/users/settings/settingsSlice";
+import { ManageFavoriteFilms } from "../../../features/users/settings/settingsSlice";
 import {
   AiOutlineClose,
   AiOutlineArrowLeft,
@@ -16,33 +16,33 @@ function FilmFavorites() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-  const [movieFormData, setMovieData] = useState({
-    movie:
-      user.Settings.favorite_movies.length > 0
-        ? user.Settings.favorite_movies
+  const [filmFormData, setFilmData] = useState({
+    film:
+      user.Settings.favorite_films.length > 0
+        ? user.Settings.favorite_films
         : [],
     counter:
-      user.Settings.favorite_movies.length - 4 >= 0
-        ? user.Settings.favorite_movies.length - 4
+      user.Settings.favorite_films.length - 4 >= 0
+        ? user.Settings.favorite_films.length - 4
         : 0,
   });
   const [updateState, setUpdateState] = useState(false);
 
-  const { movie, counter } = movieFormData;
+  const { film, counter } = filmFormData;
 
   const submitFavorites = (e) => {
     const reqData = {
-      movies: movie,
+      films: film,
       token: user.Token,
     };
-    dispatch(ManageFavoriteMovies(reqData));
+    dispatch(ManageFavoriteFilms(reqData));
   };
 
-  const removeMovie = (id, order) => {
-    setMovieData({
-      movie: movie
-        .filter(function (movie) {
-          return movie.order !== order;
+  const removeFilm = (id, order) => {
+    setFilmData({
+      film: film
+        .filter(function (film) {
+          return film.order !== order;
         })
         .map((obj, index) => {
           return { ...obj, order: index + 1 };
@@ -55,8 +55,8 @@ function FilmFavorites() {
     //if ascend true, subtract from obj.order
     //if ascend false, index to obj.order
     if (ascend) {
-      setMovieData({
-        movie: movie
+      setFilmData({
+        film: film
           .map((obj, i) => {
             if (i === index) {
               return { ...obj, order: obj.order - 1 };
@@ -69,8 +69,8 @@ function FilmFavorites() {
           .sort((a, b) => (a.order > b.order ? 1 : -1)),
       });
     } else {
-      setMovieData({
-        movie: movie
+      setFilmData({
+        film: film
           .map((obj, i) => {
             if (i === index) {
               return { ...obj, order: obj.order + 1 };
@@ -87,16 +87,16 @@ function FilmFavorites() {
   };
 
   const handleSelection = (selection) => {
-    const simpleMovie = {
+    const simpleFilm = {
       id: 0,
       tmdb_id: selection.id,
-      order: movie.length > 0 ? movie.length + 1 : 1,
+      order: film.length > 0 ? film.length + 1 : 1,
       title: selection.title,
       backdrop_path: selection.backdrop_path,
       poster_path: selection.poster_path,
     };
-    setMovieData((prevState) => ({
-      movie: [...prevState.movie, simpleMovie],
+    setFilmData((prevState) => ({
+      film: [...prevState.film, simpleFilm],
     }));
     setUpdateState(true);
     dispatch(modalSlice.actions.updateFilmSearchState());
@@ -104,13 +104,13 @@ function FilmFavorites() {
   };
 
   useEffect(() => {
-    if (movie) {
-      setMovieData((prevState) => ({
+    if (film) {
+      setFilmData((prevState) => ({
         ...prevState,
-        counter: 4 - movie.length,
+        counter: 4 - film.length,
       }));
     }
-  }, [movie, dispatch]);
+  }, [film, dispatch]);
 
   return (
     <>
@@ -119,29 +119,29 @@ function FilmFavorites() {
       </div>
 
       <ul className="favorite-list">
-        {movie ? (
+        {film ? (
           <>
-            {movie.map((movie, index) => (
-              <li className="favorite-item" key={movie.tmdb_id + index}>
-                {movie.tmdb_id ? (
+            {film.map((film, index) => (
+              <li className="favorite-item" key={film.tmdb_id + index}>
+                {film.tmdb_id ? (
                   <>
-                    {/* <h6>{movie.order}</h6> */}
-                    <Poster movie={movie} />
+                    {/* <h6>{film.order}</h6> */}
+                    <Poster film={film} />
                     <button
                       className="remove-button"
                       type="button"
                       onClick={(e) => {
-                        removeMovie(movie.tmdb_id, movie.order);
+                        removeFilm(film.tmdb_id, film.order);
                       }}
                     >
                       <AiOutlineClose />
                     </button>
-                    {movie.order > 1 ? (
+                    {film.order > 1 ? (
                       <button
                         className="sort-button left"
                         type="button"
                         onClick={(e) => {
-                          changeOrder(movie.tmdb_id, index, true);
+                          changeOrder(film.tmdb_id, index, true);
                         }}
                       >
                         <AiOutlineArrowLeft />
@@ -149,13 +149,13 @@ function FilmFavorites() {
                     ) : (
                       ""
                     )}
-                    {movie.order < 4 &&
-                    movieFormData.movie.length - movie.order !== 0 ? (
+                    {film.order < 4 &&
+                    filmFormData.film.length - film.order !== 0 ? (
                       <button
                         className="sort-button right"
                         type="button"
                         onClick={(e) => {
-                          changeOrder(movie.tmdb_id, index, false);
+                          changeOrder(film.tmdb_id, index, false);
                         }}
                       >
                         <AiOutlineArrowRight />

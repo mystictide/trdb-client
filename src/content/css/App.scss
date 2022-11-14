@@ -1014,7 +1014,7 @@ body {
         }
     }
 
-    .movie-poster {
+    .film-poster {
         display: flex;
         flex-direction: column;
         justify-items: center;
@@ -1071,7 +1071,7 @@ body {
                     .poster-title {
                         display: none;
                     }
-                    .movie-poster {
+                    .film-poster {
                         display: inline-flex;
                         a {
                             img {

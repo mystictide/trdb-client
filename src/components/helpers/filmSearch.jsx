@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { SearchMovies } from "../../features/main/mainSlice";
+import { SearchFilms } from "../../features/main/mainSlice";
 import { modalSlice } from "../../features/helpers/modalSlice";
 import { FaTimes } from "react-icons/fa";
 
@@ -25,13 +25,13 @@ function FilmSearch({ handleSelection }) {
   }, [user, keyword, search, isError, isSuccess, message, dispatch]);
 
   useEffect(() => {
-    const searchMovie = setTimeout(() => {
+    const searchFilm = setTimeout(() => {
       if (keyword.length > 0) {
         const reqData = { keyword: keyword, token: user.Token };
-        dispatch(SearchMovies(reqData));
+        dispatch(SearchFilms(reqData));
       }
     }, 2000);
-    return () => clearTimeout(searchMovie);
+    return () => clearTimeout(searchFilm);
   }, [keyword, user, dispatch]);
 
   return (
@@ -69,12 +69,12 @@ function FilmSearch({ handleSelection }) {
             />
           </form>
         </section>
-        {isSuccess && search.movies.data ? (
+        {isSuccess && search.films.data ? (
           <section className="search-results">
             <ul className="result-list">
-              {search.movies.data.map((movie) => (
-                <li key={movie.id} onClick={(e) => handleSelection(movie)}>
-                  {movie.title + ` (${movie.release_date.substring(0, 4)})`}
+              {search.films.data.map((film) => (
+                <li key={film.id} onClick={(e) => handleSelection(film)}>
+                  {film.title + ` (${film.release_date.substring(0, 4)})`}
                 </li>
               ))}
             </ul>

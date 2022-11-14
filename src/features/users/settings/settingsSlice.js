@@ -133,11 +133,11 @@ export const ToggleAdultContent = createAsyncThunk(
   }
 );
 
-export const ManageFavoriteMovies = createAsyncThunk(
-  "settings/favorites/movies",
+export const ManageFavoriteFilms = createAsyncThunk(
+  "settings/favorites/films",
   async (reqData, thunkAPI) => {
     try {
-      const response = await settingsService.ManageFavoriteMovies(reqData);
+      const response = await settingsService.ManageFavoriteFilms(reqData);
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
@@ -238,16 +238,16 @@ export const settingsSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
-      .addCase(ManageFavoriteMovies.pending, (state) => {
+      .addCase(ManageFavoriteFilms.pending, (state) => {
         state.isLoading = true;
         state.isSuccess = false;
       })
-      .addCase(ManageFavoriteMovies.fulfilled, (state, action) => {
+      .addCase(ManageFavoriteFilms.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isError = false;
       })
-      .addCase(ManageFavoriteMovies.rejected, (state, action) => {
+      .addCase(ManageFavoriteFilms.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;

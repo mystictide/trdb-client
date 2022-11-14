@@ -147,20 +147,20 @@ const ToggleAdultContent = async (reqData) => {
   return data;
 };
 
-const ManageFavoriteMovies = async (reqData) => {
+const ManageFavoriteFilms = async (reqData) => {
   var config = {
     method: "post",
-    url: API_URL + "favorites/movies",
+    url: API_URL + "favorites/films",
     headers: {
       Authorization: "Bearer " + reqData.token,
       "Content-Type": "application/json",
     },
-    data: JSON.stringify(reqData.movies),
+    data: JSON.stringify(reqData.films),
   };
 
   var data = await axios(config)
     .then(function (response) {
-      user.Settings.favorite_movies = response.data;
+      user.Settings.favorite_films = response.data;
       localStorage.setItem("user", JSON.stringify(user));
       return response.data;
     })
@@ -229,7 +229,7 @@ const settingsService = {
   ToggleWatchlist,
   TogglePrivacy,
   ToggleAdultContent,
-  ManageFavoriteMovies,
+  ManageFavoriteFilms,
   ManageFavoriteActors,
   ManageFavoriteDirectors,
 };

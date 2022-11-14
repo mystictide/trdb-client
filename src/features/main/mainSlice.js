@@ -15,7 +15,7 @@ const initialState = {
   },
   browse: null,
   search: {
-    movies: null,
+    films: null,
     actors: null,
     directors: null,
   },
@@ -46,11 +46,11 @@ export const GetWeekly = createAsyncThunk(
   }
 );
 
-export const GetPopularMovies = createAsyncThunk(
+export const GetPopularFilms = createAsyncThunk(
   "main/get/popular",
   async (thunkAPI) => {
     try {
-      const response = await mainService.GetPopularMovies();
+      const response = await mainService.GetPopularFilms();
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
@@ -67,11 +67,11 @@ export const GetPopularMovies = createAsyncThunk(
   }
 );
 
-export const GetTopMovies = createAsyncThunk(
+export const GetTopFilms = createAsyncThunk(
   "main/get/top",
   async (thunkAPI) => {
     try {
-      const response = await mainService.GetTopMovies();
+      const response = await mainService.GetTopFilms();
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
@@ -109,11 +109,11 @@ export const Browse = createAsyncThunk(
   }
 );
 
-export const SearchMovies = createAsyncThunk(
-  "main/search/movie",
+export const SearchFilms = createAsyncThunk(
+  "main/search/film",
   async (reqData, thunkAPI) => {
     try {
-      const response = await mainService.SearchMovies(reqData);
+      const response = await mainService.SearchFilms(reqData);
       if (response.status === 500) {
         return thunkAPI.rejectWithValue(response);
       }
@@ -183,7 +183,7 @@ export const mainSlice = createSlice({
       state.message = "";
     },
     clearSearch: (state) => {
-      state.search.movies = null;
+      state.search.films = null;
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
@@ -215,32 +215,32 @@ export const mainSlice = createSlice({
         state.message = action.payload;
         state.homepage.weekly = null;
       })
-      .addCase(GetPopularMovies.pending, (state) => {
+      .addCase(GetPopularFilms.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(GetPopularMovies.fulfilled, (state, action) => {
+      .addCase(GetPopularFilms.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isError = false;
         state.homepage.popular = action.payload;
       })
-      .addCase(GetPopularMovies.rejected, (state, action) => {
+      .addCase(GetPopularFilms.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
         state.homepage.popular = null;
       })
-      .addCase(GetTopMovies.pending, (state) => {
+      .addCase(GetTopFilms.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(GetTopMovies.fulfilled, (state, action) => {
+      .addCase(GetTopFilms.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isError = false;
         state.homepage.top = action.payload;
       })
-      .addCase(GetTopMovies.rejected, (state, action) => {
+      .addCase(GetTopFilms.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;
@@ -263,21 +263,21 @@ export const mainSlice = createSlice({
         state.message = action.payload;
         state.browse = null;
       })
-      .addCase(SearchMovies.pending, (state) => {
+      .addCase(SearchFilms.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(SearchMovies.fulfilled, (state, action) => {
+      .addCase(SearchFilms.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isError = false;
-        state.search.movies = action.payload;
+        state.search.films = action.payload;
       })
-      .addCase(SearchMovies.rejected, (state, action) => {
+      .addCase(SearchFilms.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
-        state.search.movies = null;
+        state.search.films = null;
       })
       .addCase(SearchActors.pending, (state) => {
         state.isLoading = true;

@@ -40,8 +40,8 @@ function Browser() {
               {browse && filter === "all" ? (
                 <>
                   <span className="headers">
-                    {browse.movies.totalItems > 0
-                      ? `Found ${browse.movies.totalItems} people for "${keyword}"`
+                    {browse.films.totalItems > 0
+                      ? `Found ${browse.films.totalItems} people for "${keyword}"`
                       : `No matching results found for "${keyword}"`}
                   </span>
                 </>
@@ -51,18 +51,18 @@ function Browser() {
               {browse && filter === "films" ? (
                 <>
                   <span className="headers">
-                    {browse.movies.totalItems > 0
-                      ? `Found ${browse.movies.totalItems} films for "${keyword}"`
+                    {browse.films.totalItems > 0
+                      ? `Found ${browse.films.totalItems} films for "${keyword}"`
                       : `No matching results found for "${keyword}"`}
                   </span>
-                  {browse.movies
-                    ? browse.movies.data.map((item, index) => (
+                  {browse.films
+                    ? browse.films.data.map((item, index) => (
                         <div className="match" key={index}>
-                          <Poster movie={item} />
+                          <Poster film={item} />
                         </div>
                       ))
                     : ""}
-                  <Pager list={browse.movies} setPage={setPage} />
+                  <Pager list={browse.films} setPage={setPage} />
                 </>
               ) : (
                 ""
@@ -93,7 +93,7 @@ function Browser() {
                 <ul className="filter-nav">
                   <li onClick={(e) => setFilter("all")}>All</li>
                   <li onClick={(e) => setFilter("films")}>
-                    Films {browse.movies ? `(${browse.movies.totalItems})` : 0}
+                    Films {browse.films ? `(${browse.films.totalItems})` : 0}
                   </li>
                   <li onClick={(e) => setFilter("people")}>
                     People {browse.people ? `(${browse.people.totalItems})` : 0}

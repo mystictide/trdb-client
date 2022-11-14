@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { GetPopularMovies, GetTopMovies } from "../../features/main/mainSlice";
+import { GetPopularFilms, GetTopFilms } from "../../features/main/mainSlice";
 import PropagateLoader from "react-spinners/ClipLoader";
 import Poster from "./poster";
 
@@ -13,10 +13,10 @@ function Featured() {
 
   useEffect(() => {
     if (!homepage.popular) {
-      dispatch(GetPopularMovies());
+      dispatch(GetPopularFilms());
     }
     if (!homepage.top) {
-      dispatch(GetTopMovies());
+      dispatch(GetTopFilms());
     }
   }, [homepage, navigate, dispatch]);
   
@@ -27,9 +27,9 @@ function Featured() {
         <div className="feature-wrap">
           <div className="featured">
             <ul className="feature-list">
-              {homepage.popular.map((movie) => (
-                <li key={movie.id}>
-                  <Poster movie={movie} />
+              {homepage.popular.map((film) => (
+                <li key={film.id}>
+                  <Poster film={film} />
                 </li>
               ))}
             </ul>
@@ -39,9 +39,9 @@ function Featured() {
           </div>
           <div className="featured">
             <ul className="feature-list">
-              {homepage.top.map((movie) => (
-                <li key={movie.id}>
-                  <Poster movie={movie} />
+              {homepage.top.map((film) => (
+                <li key={film.id}>
+                  <Poster film={film} />
                 </li>
               ))}
             </ul>

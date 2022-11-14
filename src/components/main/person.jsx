@@ -8,7 +8,7 @@ function Person(prop) {
       <div className="poster-title">
         <span>{person.name}</span>
       </div>
-      <div className="movie-poster">
+      <div className="film-poster">
         <Link>
           <img src={photo_url + person.profile_path} alt={person.name} />
         </Link>

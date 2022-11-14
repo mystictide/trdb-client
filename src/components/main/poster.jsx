@@ -6,13 +6,13 @@ function Poster(prop) {
   return (
     <>
       <div className="poster-title">
-        <span>{prop.movie.title}</span>
+        <span>{prop.film.title}</span>
       </div>
-      <div className="movie-poster">
+      <div className="film-poster">
         <Link>
           <img
-            src={poster_url + prop.movie.poster_path}
-            alt={prop.movie.title}
+            src={poster_url + prop.film.poster_path}
+            alt={prop.film.title}
           />
         </Link>
       </div>
