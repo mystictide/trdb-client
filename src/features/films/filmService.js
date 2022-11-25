@@ -1,14 +1,17 @@
 import axios from "axios";
 
-const API_URL = "https://localhost:7109/users/";
+const API_URL = "https://localhost:7109/film/";
 const headers = {
   "Content-Type": "application/json",
 };
 
-const GetUserProfile = async (reqData) => {
+const GetFilm = async (reqData) => {
   var config = {
     method: "get",
-    url: API_URL + "get/user?Username=" + reqData.username,
+    url:
+      API_URL + reqData.id
+        ? "get?ID=" + reqData.id
+        : "get?title=" + reqData.title,
     headers: headers,
   };
 
@@ -23,10 +26,10 @@ const GetUserProfile = async (reqData) => {
   return data;
 };
 
-const GetUserFollowing = async (reqData) => {
+const GetFilmCast = async (reqData) => {
   var config = {
     method: "get",
-    url: API_URL + "get/following?UserID=" + reqData.id,
+    url: API_URL + "get/credits/cast?ID=" + reqData.id,
     headers: headers,
   };
 
@@ -41,10 +44,10 @@ const GetUserFollowing = async (reqData) => {
   return data;
 };
 
-const GetUserFollowers = async (reqData) => {
+const GetFilmCrew = async (reqData) => {
   var config = {
     method: "get",
-    url: API_URL + "get/followers?UserID=" + reqData.id,
+    url: API_URL + "get/credits/crew?ID=" + reqData.id,
     headers: headers,
   };
 
@@ -59,29 +62,10 @@ const GetUserFollowers = async (reqData) => {
   return data;
 };
 
-const GetUserBlocklist = async (reqData) => {
-  var config = {
-    method: "get",
-    url: API_URL + "get/blocklist?UserID=" + reqData.id,
-    headers: headers,
-  };
-
-  var data = await axios(config)
-    .then(function (response) {
-      return response.data;
-    })
-    .catch(function (error) {
-      return { data: error.response.data, status: error.response.status };
-    });
-
-  return data;
+const filmService = {
+  GetFilm,
+  GetFilmCast,
+  GetFilmCrew,
 };
 
-const userService = {
-  GetUserProfile,
-  GetUserFollowing,
-  GetUserFollowers,
-  GetUserBlocklist,
-};
-
-export default userService;
+export default filmService;

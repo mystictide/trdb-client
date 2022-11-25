@@ -69,7 +69,7 @@ function DirectorSearch({ handleSelection }) {
             />
           </form>
         </section>
-        {isSuccess && search.directors.data ? (
+        {isSuccess && search.directors.data && search.directors.data.length > 0 ? (
           <section className="search-results">
             <ul className="result-list">
               {search.directors.data.map((director) => (
@@ -83,7 +83,11 @@ function DirectorSearch({ handleSelection }) {
             </ul>
           </section>
         ) : (
-          ""
+          <section className="search-results">
+            <ul className="result-list">
+              <li>No matching results found.</li>
+            </ul>
+          </section>
         )}
       </div>
     </div>

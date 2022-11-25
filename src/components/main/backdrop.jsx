@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { GetWeekly } from "../../features/main/mainSlice";
 
-function Backdrop() {
+function Backdrop({ film }) {
   const dispatch = useDispatch();
 
   const { homepage } = useSelector((state) => state.main);
@@ -17,7 +17,15 @@ function Backdrop() {
   return (
     <div className="backdrop-container">
       <div className="backdrop-wrap">
-        {homepage.weekly ? (
+        {film ? (
+          <div
+            className="backdrop-img"
+            style={{
+              backgroundImage: `url(${url + film.backdrop_path})`,
+            }}
+            loading="lazy"
+          ></div>
+        ) : homepage.weekly ? (
           <>
             <div
               className="backdrop-img"
@@ -38,6 +46,7 @@ function Backdrop() {
         ) : (
           <div className="backdrop-img" loading="lazy"></div>
         )}
+
         <div className="backdrop-mask"></div>
       </div>
     </div>

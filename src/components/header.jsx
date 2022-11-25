@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { logout, reset } from "../features/auth/authSlice";
 import { clearBrowser } from "../features/main/mainSlice";
 import { modalSlice } from "../features/helpers/modalSlice";
 import RegisterModal from "./account/register";
 import LoginModal from "./account/login";
+import UserDropdown from "./helpers/userDropdown";
+import { BsChevronBarDown } from "react-icons/bs";
 import { BiX, BiSearch } from "react-icons/bi";
 
 const Header = () => {
@@ -22,12 +23,6 @@ const Header = () => {
 
   useEffect(() => {}, [user, loginActive, registerActive, navigate, dispatch]);
 
-  const doLogout = () => {
-    dispatch(logout());
-    navigate("/");
-    dispatch(reset());
-  };
-
   const onKeywordChange = (e) => {
     setsearchData((prevState) => ({
       ...prevState,
@@ -40,6 +35,11 @@ const Header = () => {
     navigate("/browse/" + keyword);
   };
 
+  const toggleDropdown = () => {
+    const container = document.getElementById("user-dropdown");
+    container.classList.add("active");
+  };
+
   return (
     <>
       <header id="header">
@@ -49,8 +49,15 @@ const Header = () => {
               <Link to="/" className="logo" />
               <div className="main-nav">
                 <ul className="nav-list">
-                  <li>
-                    <Link to="/me">{user.Username}</Link>
+                  <li className="user" onMouseEnter={toggleDropdown}>
+                    <img
+                      src="https://a.ltrbxd.com/resized/avatar/upload/1/0/2/9/3/6/2/shard/avtr-0-48-0-48-crop.jpg?v=eef5721bdc"
+                      alt="furkang"
+                    />
+                    <button type="button" className="drop-button">
+                      {user.Username} <BsChevronBarDown className="drop-icon" />
+                    </button>
+                    <UserDropdown user={user} />
                   </li>
                   <li>Films</li>
                   <li>Messages</li>
@@ -62,11 +69,7 @@ const Header = () => {
                         className="search"
                         onClick={(e) => setSearchState(!searchActive)}
                       >
-                        <BiSearch />
-                      </li>
-                      <li>
-                        {/* Log */}
-                        <button onClick={doLogout}>Logout</button>
+                        <BiSearch className="search-icon" />
                       </li>
                     </>
                   ) : (
@@ -75,10 +78,10 @@ const Header = () => {
                         <fieldset>
                           <button
                             type="button"
-                            className="cancel"
+                            className="search-button cancel"
                             onClick={(e) => setSearchState(!searchActive)}
                           >
-                            <BiX />
+                            <BiX className="search-icon" />
                           </button>
                           <input
                             className="search"
@@ -88,8 +91,12 @@ const Header = () => {
                             value={keyword}
                             onChange={onKeywordChange}
                           ></input>
-                          <button type="button" onClick={onKeywordSubmit}>
-                            <BiSearch />
+                          <button
+                            type="button"
+                            className="search-button"
+                            onClick={onKeywordSubmit}
+                          >
+                            <BiSearch className="search-icon" />
                           </button>
                         </fieldset>
                       </div>
@@ -105,6 +112,8 @@ const Header = () => {
                 <ul className="nav-list">
                   <li>
                     <button
+                      type="button"
+                      className="account-button"
                       onClick={() => {
                         dispatch(modalSlice.actions.updateLoginState());
                       }}
@@ -114,6 +123,8 @@ const Header = () => {
                   </li>
                   <li>
                     <button
+                      type="button"
+                      className="account-button"
                       onClick={() => {
                         dispatch(modalSlice.actions.updateRegisterState());
                       }}
@@ -129,7 +140,7 @@ const Header = () => {
                     <div className="search-box">
                       <fieldset>
                         <input className="search"></input>
-                        <button type="button">
+                        <button type="button" className="alt-search-button">
                           <BiSearch />
                         </button>
                       </fieldset>

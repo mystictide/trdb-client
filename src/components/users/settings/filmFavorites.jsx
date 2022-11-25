@@ -125,7 +125,6 @@ function FilmFavorites() {
               <li className="favorite-item" key={film.tmdb_id + index}>
                 {film.tmdb_id ? (
                   <>
-                    {/* <h6>{film.order}</h6> */}
                     <Poster film={film} />
                     <button
                       className="remove-button"

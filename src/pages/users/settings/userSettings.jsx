@@ -17,7 +17,7 @@ function UserSettings() {
     notif: false,
     imp: false,
   });
-  
+
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -85,9 +85,7 @@ function UserSettings() {
                 </button>
               </li>
               <li>
-                <button onClick={(e) => setActivePanel(e, 2)}>
-                  FAVORITES
-                </button>
+                <button onClick={(e) => setActivePanel(e, 2)}>FAVORITES</button>
               </li>
               <li>
                 <button onClick={(e) => setActivePanel(e, 3)}>
@@ -111,13 +109,17 @@ function UserSettings() {
               </li>
             </ul>
           </div>
-          <div className="settings-wrap">
-            {panelData.personal ? <PersonalSettings /> : ""}
-            {panelData.film ? <FilmSettings /> : ""}
-            {panelData.conn ? <ConnectionSettings /> : ""}
-            {panelData.notif ? <NotificationSettings /> : ""}
-            {panelData.imp ? <ImportSettings /> : ""}
-          </div>
+          {user ? (
+            <div className="settings-wrap">
+              {panelData.personal ? <PersonalSettings /> : ""}
+              {panelData.film ? <FilmSettings /> : ""}
+              {panelData.conn ? <ConnectionSettings /> : ""}
+              {panelData.notif ? <NotificationSettings /> : ""}
+              {panelData.imp ? <ImportSettings /> : ""}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>

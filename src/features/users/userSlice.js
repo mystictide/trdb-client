@@ -1,15 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import userService from "./userService";
 
-const personal = JSON.parse(localStorage.getItem("personal"));
-const following = JSON.parse(localStorage.getItem("following"));
-const followers = JSON.parse(localStorage.getItem("followers"));
-
 const initialState = {
   profile: {
-    personal: personal ? personal : null,
-    following: following ? following : null,
-    followers: followers ? followers : null,
+    personal: null,
+    following: null,
+    followers: null,
+    favorites: null,
   },
   isError: false,
   isSuccess: false,
@@ -106,6 +103,9 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => {
+      state.profile.personal = null;
+      state.profile.following = null;
+      state.profile.followers = null;
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;

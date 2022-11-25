@@ -69,7 +69,7 @@ function FilmSearch({ handleSelection }) {
             />
           </form>
         </section>
-        {isSuccess && search.films.data ? (
+        {isSuccess && search.films.data && search.films.data.length > 0 ? (
           <section className="search-results">
             <ul className="result-list">
               {search.films.data.map((film) => (
@@ -80,7 +80,11 @@ function FilmSearch({ handleSelection }) {
             </ul>
           </section>
         ) : (
-          ""
+          <section className="search-results">
+            <ul className="result-list">
+              <li>No matching results found.</li>
+            </ul>
+          </section>
         )}
       </div>
     </div>

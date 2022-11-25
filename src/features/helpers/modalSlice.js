@@ -6,6 +6,7 @@ const initialState = {
   filmSearchActive: false,
   actorSearchActive: false,
   directorSearchActive: false,
+  photoActive: false,
 };
 
 export const modalSlice = createSlice({
@@ -38,6 +39,9 @@ export const modalSlice = createSlice({
     updateDirectorSearchState(state) {
       state.directorSearchActive = !state.directorSearchActive;
     },
+    updatePhotoState(state) {
+      state.photoActive = !state.photoActive;
+    },
   },
 });
 
@@ -50,5 +54,6 @@ export const {
   updateFilmSearchState,
   updateActorSearchState,
   updateDirectorSearchState,
+  updatePhotoState,
 } = modalSlice.actions;
 export default modalSlice.reducer;

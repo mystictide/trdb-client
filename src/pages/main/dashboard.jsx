@@ -8,13 +8,14 @@ function Dashboard() {
 
   const { user } = useSelector((state) => state.auth);
 
-  useEffect(() => {}, [user, navigate, dispatch]);
+  useEffect(() => {
+    const el = document.getElementById("main");
+    const elHeader = document.getElementById("header");
+    el.classList.remove("welcome-page");
+    elHeader.classList.remove("welcome-header");
+  }, [user, navigate, dispatch]);
 
-  return (
-    <>
-      
-    </>
-  );
+  return <></>;
 }
 
 export default Dashboard;
