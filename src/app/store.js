@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../features/auth/authSlice";
 import userReducer from "../features/users/userSlice";
 import filmReducer from "../features/films/filmSlice";
+import userfilmReducer from "../features/userFilms/userFilmSlice";
 import settingsReducer from "../features/users/settings/settingsSlice";
 import mainReducer from "../features/main/mainSlice";
 import validationReducer from "../features/auth/validationSlice";
@@ -12,6 +13,7 @@ export const store = configureStore({
     auth: authReducer,
     films: filmReducer,
     users: userReducer,
+    userfilms: userfilmReducer,
     settings: settingsReducer,
     main: mainReducer,
     validation: validationReducer,

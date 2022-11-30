@@ -6,12 +6,13 @@ const headers = {
 };
 
 const GetFilm = async (reqData) => {
+  var param = !!reqData.id
+    ? "get?ID=" + reqData.id
+    : "get?title=" + reqData.title;
+
   var config = {
     method: "get",
-    url:
-      API_URL + reqData.id
-        ? "get?ID=" + reqData.id
-        : "get?title=" + reqData.title,
+    url: API_URL + param,
     headers: headers,
   };
 

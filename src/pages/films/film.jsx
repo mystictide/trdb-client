@@ -14,6 +14,7 @@ import { decodeURL } from "../../content/js/helpers";
 import Backdrop from "../../components/main/backdrop";
 import TextPreview from "../../components/helpers/textPreview";
 import FilmCredits from "../../components/films/filmCredits";
+import FilmMenu from "../../components/films/filmMenu";
 
 const Film = () => {
   const navigate = useNavigate();
@@ -122,35 +123,50 @@ const Film = () => {
                       ))}
                     </ul>
                   </section>
-                  <section className="information">
-                    <div className="presentation">
-                      <h5 className="tagline">{film.tagline}</h5>
-                      <TextPreview text={film.overview} />
-                    </div>
-                    <div className="credits">
-                      {castSuccess && film.credits ? (
-                        <FilmCredits
-                          genres={film.genres}
-                          languages={film.spoken_languages}
-                          companies={film.production_companies}
-                          countries={film.production_countries}
-                          credits={film.credits}
-                        />
-                      ) : (
-                        <div className="loading">
-                          <PropagateLoader
-                            color="#6f5773"
-                            size={30}
-                            speedMultiplier={0.5}
+                  <div className="main-container">
+                    <section className="information">
+                      <div className="presentation">
+                        <h5 className="tagline">{film.tagline}</h5>
+                        <TextPreview text={film.overview} />
+                      </div>
+                      <div className="credits">
+                        {castSuccess && film.credits ? (
+                          <FilmCredits
+                            genres={film.genres}
+                            languages={film.spoken_languages}
+                            companies={film.production_companies}
+                            countries={film.production_countries}
+                            cast={film.credits.cast}
+                            crew={film.credits.crew}
                           />
-                        </div>
-                      )}
-                    </div>
-                    <div className="extra">
-                      <h6 className="runtime">{film.runtime} minutes</h6>
-                    </div>
-                  </section>
-                  <section className="side-menu"></section>
+                        ) : (
+                          <div className="loading">
+                            <PropagateLoader
+                              color="#6f5773"
+                              size={30}
+                              speedMultiplier={0.5}
+                            />
+                          </div>
+                        )}
+                      </div>
+                      <div className="extra">
+                        <h6 className="runtime">{film.runtime} minutes</h6>
+                        <a
+                          className="ref"
+                          href={`http://www.imdb.com/title/${film.imdb_id}/maindetails`}
+                        >
+                          IMDB
+                        </a>
+                        <a
+                          className="ref"
+                          href={`https://www.themoviedb.org/movie/${film.id}/`}
+                        >
+                          TMDB
+                        </a>
+                      </div>
+                    </section>
+                    <FilmMenu film={film}/>
+                  </div>
                 </div>
               </div>
             </div>
