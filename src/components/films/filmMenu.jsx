@@ -2,17 +2,18 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import PropagateLoader from "react-spinners/ClipLoader";
+import FilmManageReview from "./filmManageReview";
 import FilmRating from "./filmRating";
 import { toast } from "react-toastify";
 import { formatPrettyURL } from "../../content/js/helpers";
+import { modalSlice } from "../../features/helpers/modalSlice";
 import {
   GetUserFilmDetails,
   Watch,
   Like,
   Watchlist,
   Rate,
-  Review,
-  reset,
+  resetReviewState,
 } from "../../features/userFilms/userFilmSlice";
 import {
   BsEye,
@@ -30,14 +31,13 @@ function FilmMenu({ film }) {
   const dispatch = useDispatch();
 
   const [shareStatus, setShareStatus] = useState(false);
+  const [blank, setBlankReview] = useState(false);
   const { user } = useSelector((state) => state.auth);
-  const { userfilm, isInitialSuccess } = useSelector(
+  const { userfilm, isInitialSuccess, isReviewSuccess } = useSelector(
     (state) => state.userfilms
   );
-
-  const toggleShare = (e) => {
-    setShareStatus(e);
-  };
+  const { reviewState } = useSelector((state) => state.modals);
+  const watchCount = userfilm.reviews.length;
 
   const copyToClipboard = (e) => {
     var test = "http://localhost:3000/film/" + formatPrettyURL(film.title);
@@ -84,12 +84,46 @@ function FilmMenu({ film }) {
     dispatch(Rate(reqData));
   };
 
+  const goToActivity = () => {
+    var url = `/${user.Username}/film/${formatPrettyURL(
+      film.title
+    )}-${film.release_date.substring(0, 4)}/logs`;
+    navigate(url);
+  };
+
+  const goToReview = () => {
+    var url = `/${user.Username}/film/${formatPrettyURL(
+      film.title
+    )}-${film.release_date.substring(0, 4)}}`;
+    navigate(url);
+  };
+
+  const toggleReview = () => {
+    setBlankReview(true);
+    dispatch(modalSlice.actions.updateReviewState());
+  };
+
   useEffect(() => {
     if (!isInitialSuccess) {
       const reqData = { id: film.id, token: user.Token };
       dispatch(GetUserFilmDetails(reqData));
     }
   }, [isInitialSuccess, userfilm, film, user, dispatch]);
+
+  useEffect(() => {
+    if (isReviewSuccess) {
+      toast("Review successfully logged in!");
+      dispatch(modalSlice.actions.updateReviewState());
+      dispatch(resetReviewState());
+
+      var url = `/${user.Username}/film/${formatPrettyURL(
+        film.title
+      )}-${film.release_date.substring(0, 4)}/${
+        userfilm.reviews[userfilm.reviews.length - 1].id
+      }`;
+      navigate(url);
+    }
+  }, [film, user, isReviewSuccess, userfilm, navigate, dispatch]);
 
   return (
     <>
@@ -98,14 +132,40 @@ function FilmMenu({ film }) {
           <ul className="function-list">
             <li className="main-functions">
               {userfilm.watched ? (
-                <button
-                  type="button"
-                  className="active watch"
-                  onClick={(e) => toggleWatch()}
-                >
-                  <BsEyeFill />
-                  Watched
-                </button>
+                <>
+                  {watchCount > 0 ? (
+                    <>
+                      {watchCount > 1 ? (
+                        <button
+                          type="button"
+                          className="active watch"
+                          onClick={(e) => goToActivity()}
+                        >
+                          <BsEyeFill />
+                          Reviewed <span>{watchCount}</span>
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="active watch"
+                          onClick={(e) => goToReview()}
+                        >
+                          <BsEyeFill />
+                          Reviewed
+                        </button>
+                      )}
+                    </>
+                  ) : (
+                    <button
+                      type="button"
+                      className="active watch"
+                      onClick={(e) => toggleWatch()}
+                    >
+                      <BsEyeFill />
+                      Watched
+                    </button>
+                  )}
+                </>
               ) : (
                 <button type="button" onClick={(e) => toggleWatch()}>
                   <BsEye />
@@ -145,16 +205,46 @@ function FilmMenu({ film }) {
             </li>
             <li className="rating">
               Rate
-              <FilmRating rating={userfilm.rating} rate={rate} />
+              <FilmRating
+                rating={
+                  userfilm.reviews.length > 0
+                    ? { rating: userfilm.reviews[0].rating }
+                    : userfilm.rating
+                }
+                rate={rate}
+              />
             </li>
+            {userfilm.reviews.length === 1 ? (
+              <li>
+                <button
+                  type="button"
+                  onClick={() => {
+                    dispatch(modalSlice.actions.updateReviewState());
+                  }}
+                >
+                  Update your review
+                </button>
+              </li>
+            ) : (
+              ""
+            )}
             <li>
-              <button type="button">Review or log</button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  toggleReview();
+                }}
+              >
+                {userfilm.reviews.length > 0
+                  ? "Review or log again"
+                  : "Review or log"}
+              </button>
             </li>
             <li>
               <button type="button">Add to lists</button>
             </li>
             {shareStatus ? (
-              <li className="share" onMouseLeave={(e) => toggleShare(false)}>
+              <li className="share" onMouseLeave={(e) => setShareStatus(false)}>
                 <button type="button" onClick={(e) => copyToClipboard()}>
                   <BsClipboard />
                   Clipboard
@@ -165,11 +255,16 @@ function FilmMenu({ film }) {
                 </button>
               </li>
             ) : (
-              <li onMouseEnter={(e) => toggleShare(true)}>Share</li>
+              <li onMouseEnter={(e) => setShareStatus(true)}>Share</li>
             )}
           </ul>
         </div>
       </section>
+      {reviewState ? (
+        <FilmManageReview film={film} userfilm={userfilm} blank={blank} />
+      ) : (
+        ""
+      )}
     </>
   );
 }

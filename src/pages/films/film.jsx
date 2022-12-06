@@ -10,6 +10,7 @@ import {
   GetFilmCrew,
   reset,
 } from "../../features/films/filmSlice";
+import { resetUserFilm } from "../../features/userFilms/userFilmSlice";
 import { decodeURL } from "../../content/js/helpers";
 import Backdrop from "../../components/main/backdrop";
 import TextPreview from "../../components/helpers/textPreview";
@@ -39,6 +40,7 @@ const Film = () => {
   useEffect(() => {
     return () => {
       dispatch(reset());
+      dispatch(resetUserFilm());
       const el = document.getElementById("main");
       const elHeader = document.getElementById("header");
       el.classList.remove("welcome-page");
@@ -165,7 +167,7 @@ const Film = () => {
                         </a>
                       </div>
                     </section>
-                    <FilmMenu film={film}/>
+                    <FilmMenu film={film} />
                   </div>
                 </div>
               </div>

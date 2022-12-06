@@ -7,14 +7,65 @@ const initialState = {
     liked: false,
     watchlist: false,
     rating: null,
+    reviews: [],
+  },
+  userfilmlog: {
+    film: null,
+    review: null,
+  },
+  userfilmlogs: {
+    film: null,
     reviews: null,
   },
   isError: false,
   isSuccess: false,
   isInitialSuccess: false,
+  isReviewSuccess: false,
   isLoading: false,
   message: "",
 };
+
+export const GetUserFilmLogs = createAsyncThunk(
+  "film/get/user/logs",
+  async (reqData, thunkAPI) => {
+    try {
+      const response = await userFilmService.GetUserFilmLogs(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
+      return response;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const GetUserFilmReview = createAsyncThunk(
+  "film/get/user/review",
+  async (reqData, thunkAPI) => {
+    try {
+      const response = await userFilmService.GetUserFilmReview(reqData);
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(response);
+      }
+      return response;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 export const GetUserFilmDetails = createAsyncThunk(
   "film/get/user",
@@ -136,22 +187,80 @@ export const userFilmSlice = createSlice({
   name: "userFilm",
   initialState,
   reducers: {
-    reset: (state) => {
+    resetUserFilm: (state) => {
       state.userfilm = {
         watched: false,
         liked: false,
         watchlist: false,
         rating: null,
-        reviews: null,
+        reviews: [],
       };
+      state.userfilmlog = {
+        film: null,
+        review: null,
+      };
+      state.userfilmlogs= {
+        film: null,
+        reviews: null,
+      }
       state.isLoading = false;
       state.isSuccess = false;
+      state.isInitialSuccess = false;
       state.isError = false;
       state.message = "";
+    },
+    resetReviewState: (state) => {
+      state.isReviewSuccess = false;
+    },
+    resetUserFilmLog: (state) => {
+      state.isSuccess = false;
+      state.userfilmlog = {
+        film: null,
+        review: null,
+      };
+    },
+    resetUserFilmLogs: (state) => {
+      state.isSuccess = false;
+      state.userfilmlogs = {
+        film: null,
+        reviews: null,
+      };
     },
   },
   extraReducers: (builder) => {
     builder
+      .addCase(GetUserFilmLogs.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(GetUserFilmLogs.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.userfilmlogs = action.payload;
+      })
+      .addCase(GetUserFilmLogs.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.userfilmlogs = null;
+      })
+      .addCase(GetUserFilmReview.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(GetUserFilmReview.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.userfilmlog = action.payload;
+      })
+      .addCase(GetUserFilmReview.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.userfilmlog = null;
+      })
       .addCase(GetUserFilmDetails.pending, (state) => {
         state.isLoading = true;
       })
@@ -237,13 +346,14 @@ export const userFilmSlice = createSlice({
       })
       .addCase(Review.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = true;
+        state.isReviewSuccess = true;
         state.isError = false;
-        state.userfilm.reviews = action.payload;
+        state.userfilm.reviews.push(action.payload);
+        state.userfilm.liked = state.userfilm.reviews[0].liked;
       })
       .addCase(Review.rejected, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = false;
+        state.isReviewSuccess = false;
         state.isError = true;
         state.message = action.payload;
         state.userfilm.reviews = null;
@@ -251,5 +361,5 @@ export const userFilmSlice = createSlice({
   },
 });
 
-export const { reset } = userFilmSlice.actions;
+export const { resetUserFilm, resetReviewState, resetUserFilmLog, resetUserFilmLogs } = userFilmSlice.actions;
 export default userFilmSlice.reducer;

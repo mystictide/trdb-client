@@ -7,6 +7,7 @@ const initialState = {
   actorSearchActive: false,
   directorSearchActive: false,
   photoActive: false,
+  reviewState: false,
 };
 
 export const modalSlice = createSlice({
@@ -23,6 +24,9 @@ export const modalSlice = createSlice({
       state.filmSearchActive = false;
       state.actorSearchActive = false;
       state.directorSearchActive = false;
+    },
+    resetReviewState: (state) => {
+      state.reviewState = false;
     },
     updateLoginState(state) {
       state.loginActive = !state.loginActive;
@@ -42,6 +46,9 @@ export const modalSlice = createSlice({
     updatePhotoState(state) {
       state.photoActive = !state.photoActive;
     },
+    updateReviewState(state) {
+      state.reviewState = !state.reviewState;
+    },
   },
 });
 
@@ -51,9 +58,11 @@ export const {
   updateLoginState,
   updateRegisterState,
   resetSearchState,
+  resetReviewState,
   updateFilmSearchState,
   updateActorSearchState,
   updateDirectorSearchState,
   updatePhotoState,
+  updateReviewState,
 } = modalSlice.actions;
 export default modalSlice.reducer;

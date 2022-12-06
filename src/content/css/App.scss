@@ -22,7 +22,7 @@ $bg-darker: #1d161e;
 $bg-lighter: #3e2c41;
 $main-light: #9c969c;
 $main-color: #d3d0cb;
-$flavor-color: #ffc18e;
+$flavor-color: #dab1da;
 
 @mixin bg-gradient {
     background-repeat-x: repeat;
@@ -327,7 +327,7 @@ body {
         .content {
             background-image: none;
             padding-top: 400px;
-            padding-bottom: 215px;
+            padding-bottom: 300px;
             .content-wrap {
                 display: flex;
                 flex-direction: column;
@@ -853,7 +853,7 @@ body {
                                             color: $bg-lighter;
                                         }
                                     }
-                                    button{
+                                    button {
                                         @include button-reset();
                                         &:hover {
                                             color: $main-color;
@@ -894,11 +894,30 @@ body {
                                             svg {
                                                 color: #291d2b;
                                             }
+                                            span {
+                                                @include transition();
+                                                box-shadow: 0 0 1px 1px $main-light;
+                                                background-color: #291d2b;
+                                                color: $main-light;
+                                                opacity: 1;
+                                            }
                                         }
                                     }
                                     .watch {
+                                        position: relative;
                                         svg {
                                             color: #4fc980;
+                                        }
+                                        span {
+                                            opacity: 0.85;
+                                            position: absolute;
+                                            padding: 0px 5px;
+                                            background-color: $main-light;
+                                            border-radius: 100%;
+                                            box-shadow: 0 0 1px 1px $bg-main;
+                                            color: $bg-main;
+                                            bottom: 22px;
+                                            right: 10px;
                                         }
                                     }
                                     .like {
@@ -924,7 +943,7 @@ body {
                                         column-gap: 3px;
                                         font-size: 2rem;
                                         // color: #ffd900;
-                                        color: #dab1da;
+                                        color: $flavor-color;
                                         opacity: 0.7;
                                     }
                                 }
@@ -943,7 +962,7 @@ body {
                                         align-items: center;
                                         row-gap: 5px;
                                         font-size: 0.75rem;
-                                        
+
                                         svg {
                                             font-size: 1.2rem;
                                         }
@@ -965,6 +984,385 @@ body {
                                         }
                                     }
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .film-log-container {
+        position: relative;
+        margin: 0 auto;
+        width: 950px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        column-gap: 5%;
+        .poster {
+            .poster-title {
+                display: none;
+            }
+            .film-poster {
+                height: 100%;
+                width: 150px;
+                img {
+                    &:hover {
+                        border: 3px solid $main-light;
+                    }
+                }
+            }
+        }
+
+        .review-form {
+            width: 62%;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            row-gap: 1rem;
+            h5 {
+                display: block;
+                width: 100%;
+                color: $main-light;
+                letter-spacing: 0.02rem;
+                opacity: 0.8;
+                padding-bottom: 5px;
+                border-bottom: 2px solid;
+                border-width: 2px;
+                border-image-slice: 1;
+                border-image-source: linear-gradient(90deg, $main-light -25%, rgba(62, 44, 65, 0) 55%);
+                a {
+                    @include transition();
+                    &:hover {
+                        @include transition();
+                        color: $main-light;
+                    }
+                }
+            }
+
+            .title {
+                display: inline-flex;
+                align-items: baseline;
+                column-gap: 7px;
+                h2 {
+                    margin: 0;
+                    a {
+                        @include transition();
+                        &:hover {
+                            @include transition();
+                            color: $main-light;
+                        }
+                    }
+                }
+                .year {
+                    color: $main-light;
+                    font-size: 0.9rem;
+                }
+                .watched {
+                    font-size: 0.65rem;
+                    margin: 0;
+                    padding: 0;
+                    color: $main-light;
+                }
+            }
+
+            .body {
+                width: 100%;
+                max-width: 100%;
+                min-height: 100px;
+                max-height: 100%;
+                p {
+                    padding: 10px 0;
+                    border-radius: 4px;
+                    font-size: 0.9rem;
+                    white-space: break-spaces;
+                    &:focus {
+                        outline: none;
+                        background-color: #ece9e3;
+                    }
+                }
+
+                p.notfound {
+                    padding: 20px 0;
+                    border: 2px solid $main-light;
+                    opacity: 0.8;
+                    text-align: center;
+                }
+            }
+
+            button.submit {
+                @include button-reset();
+                @include transition();
+                padding: 7px 10px;
+                border-radius: 5px;
+                color: $main-color;
+                border: 3px solid $bg-main;
+                background-color: $bg-lighter;
+                letter-spacing: 0.25rem;
+                opacity: 0.6;
+                align-self: flex-end;
+                &:hover {
+                    @include transition();
+                    opacity: 1;
+                }
+            }
+        }
+
+        .side-menu {
+            width: 30%;
+            display: inline-flex;
+
+            .film-functions {
+                display: block;
+                width: 100%;
+
+                .function-list {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: $bg-lighter;
+                    border-radius: 5px;
+                    :last-child {
+                        border: none;
+                    }
+                    li {
+                        width: 100%;
+                        font-size: 0.88rem;
+                        color: $main-light;
+                        padding: 12px;
+                        border-bottom: 1px solid $bg-main;
+                        text-align: center;
+                        a {
+                            &:hover {
+                                color: $bg-lighter;
+                            }
+                        }
+                        button {
+                            @include button-reset();
+                            &:hover {
+                                color: $main-color;
+                            }
+                        }
+                    }
+
+                    .main-functions {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: center;
+                        button {
+                            @include button-reset();
+                            @include transition();
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            row-gap: 5px;
+                            font-size: 0.85rem;
+                            width: 33.3%;
+                            svg {
+                                font-size: 2.4rem;
+                            }
+                            &:hover {
+                                @include transition();
+                                color: $main-color;
+                                svg {
+                                    color: $main-color;
+                                }
+                            }
+                        }
+                        button.active {
+                            &:hover {
+                                @include transition();
+                                color: $bg-main;
+                                svg {
+                                    color: #291d2b;
+                                }
+                                span {
+                                    @include transition();
+                                    box-shadow: 0 0 1px 1px $main-light;
+                                    background-color: #291d2b;
+                                    color: $main-light;
+                                    opacity: 1;
+                                }
+                            }
+                        }
+                        .watch {
+                            position: relative;
+                            svg {
+                                color: #4fc980;
+                            }
+                            span {
+                                opacity: 0.85;
+                                position: absolute;
+                                padding: 0px 5px;
+                                background-color: $main-light;
+                                border-radius: 100%;
+                                box-shadow: 0 0 1px 1px $bg-main;
+                                color: $bg-main;
+                                bottom: 22px;
+                                right: 10px;
+                            }
+                        }
+                        .like {
+                            svg {
+                                color: #bd4646;
+                            }
+                        }
+                        .watchlist {
+                            svg {
+                                color: #5377ec;
+                            }
+                        }
+                    }
+
+                    .rating {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        row-gap: 10px;
+                        align-items: center;
+                        .stars {
+                            display: flex !important;
+                            column-gap: 3px;
+                            font-size: 2rem;
+                            color: $flavor-color;
+                            opacity: 0.7;
+                        }
+                    }
+
+                    .share {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-evenly;
+                        align-items: center;
+                        button {
+                            @include button-reset();
+                            @include transition();
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            row-gap: 5px;
+                            font-size: 0.75rem;
+
+                            svg {
+                                font-size: 1.2rem;
+                            }
+                            &:hover {
+                                @include transition();
+                                color: $main-color;
+                                svg {
+                                    color: $main-color;
+                                }
+                            }
+                        }
+                        button.active {
+                            &:hover {
+                                @include transition();
+                                color: $bg-main;
+                                svg {
+                                    color: #291d2b;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .heading {
+            width: 5%;
+            font-size: 0.8rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+
+            svg {
+                font-size: 1.8rem;
+                color: hsla(0, 0%, 100%, 0.5);
+                &:hover {
+                    color: $main-color;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .film-logs-container {
+        position: relative;
+        margin: 0 auto;
+        width: 950px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        column-gap: 5%;
+        .poster {
+            width: 25%;
+            .poster-title {
+                display: none;
+            }
+            .film-poster {
+                width: 230px;
+                height: 345px;
+                img {
+                    width: 230px;
+                    height: 345px;
+                    &:hover {
+                        border: 3px solid $main-light;
+                    }
+                }
+            }
+        }
+
+        .activity {
+            width: 75%;
+            display: inline-flex;
+            flex-direction: column;
+            row-gap: 5px;
+
+            h5 {
+                color: $main-light;
+                letter-spacing: 0.1rem;
+                opacity: 0.8;
+            }
+
+            .title {
+                display: inline-flex;
+                align-items: baseline;
+                column-gap: 7px;
+                h2 {
+                    margin: 0;
+                }
+                .year {
+                    color: $main-light;
+                }
+            }
+
+            .logs {
+                padding-top: 20px;
+                ul {
+                    border-radius: 4px;
+                    :last-child {
+                        border: none;
+                    }
+                    li {
+                        padding: 15px 10px;
+                        color: $main-light;
+                        font-size: 0.9rem;
+                        border-radius: 4px;
+                        background-color: $bg-lighter;
+                        border-bottom: 1px solid $bg-main;
+                        a {
+                            &:hover {
+                                color: $main-light;
                             }
                         }
                     }
@@ -1945,6 +2343,7 @@ body {
                     margin-bottom: 0;
                     overflow: hidden;
                     li {
+                        color: $main-light;
                         display: inline-block;
                         margin-right: 1em;
                         font-family: $font-bold;
@@ -2384,6 +2783,294 @@ body {
                 }
                 .divider {
                     border-top: 2px solid $bg-main;
+                }
+            }
+        }
+    }
+}
+
+.review-container {
+    min-height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 23128;
+
+    .review-overlay {
+        width: 100%;
+        min-height: 100vh;
+        cursor: auto;
+        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQMAAAAk8RryAAAABlBMVEUAAAD///+l2Z/dAAAAAnRSTlP/AOW3MEoAAAAOSURBVBiVY2AYBYMJAAABkAAB2POVPwAAAABJRU5ErkJggg==)
+            repeat 0 0;
+        opacity: 0.6;
+    }
+
+    .review-content {
+        position: absolute;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-around;
+        background: $bg-lighter;
+        border-radius: 5px;
+        min-width: 836px;
+        max-width: 950px;
+        height: 385px;
+        max-height: 85%;
+        padding: 25px;
+        padding-left: 45px;
+        z-index: 9;
+        @include transition();
+
+        .poster {
+            width: 25%;
+
+            .poster-title {
+                display: none;
+            }
+            .film-poster {
+                height: 100%;
+                width: 150px;
+                img {
+                    &:hover {
+                        border: 3px solid $main-light;
+                    }
+                }
+            }
+        }
+
+        .review-form {
+            width: 70%;
+            max-width: 70%;
+            height: 100%;
+            max-height: 100%;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            row-gap: 1rem;
+            h5 {
+                color: $main-light;
+                letter-spacing: 0.1rem;
+                opacity: 0.8;
+            }
+
+            .title {
+                display: inline-flex;
+                align-items: baseline;
+                column-gap: 7px;
+                h2 {
+                    margin: 0;
+                }
+                .year {
+                    color: $main-light;
+                }
+            }
+            .date-selection {
+                .checks {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    column-gap: 10px;
+                    label {
+                        padding-left: 2px;
+                        font-size: 0.8rem;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        cursor: pointer;
+                        input[type="checkbox"] {
+                            cursor: pointer;
+                            border: none;
+                            outline: none;
+                            transform: scale(1.5);
+                            color: $bg-lighter;
+                            margin-right: 10px;
+                        }
+                    }
+                    input[type="checkbox"] {
+                        cursor: pointer;
+                        border: none;
+                        outline: none;
+                        transform: scale(1.5);
+                        color: $bg-lighter;
+                    }
+                }
+                .react-datepicker-wrapper {
+                    padding-left: 7px;
+                    width: 65%;
+                    .react-datepicker__input-container {
+                        width: 100%;
+                        input {
+                            cursor: pointer;
+                            width: 100%;
+                            text-align: center;
+                            border-radius: 4px;
+                            background-color: $main-light;
+                            color: $bg-main;
+                            outline: 0;
+                            border: none;
+                            padding: 5px 0;
+                            @include transition();
+                            &:hover {
+                                @include transition();
+                                background-color: $bg-main;
+                                color: $main-color;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .body {
+                width: 100%;
+                max-width: 100%;
+                min-height: 100px;
+                max-height: 100%;
+                textarea {
+                    min-width: 100%;
+                    width: 100%;
+                    max-width: 100%;
+                    min-height: 105px;
+                    max-height: 100%;
+                    padding: 10px;
+                    border-radius: 4px;
+                    font-size: 0.9rem;
+                    background-color: $main-light;
+                    &:focus {
+                        outline: none;
+                        background-color: #ece9e3;
+                    }
+                }
+            }
+            .extra {
+                display: flex;
+                width: 100%;
+                align-items: flex-start;
+                justify-content: flex-end;
+                column-gap: 2.5rem;
+                .rating {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    row-gap: 7px;
+                    align-items: flex-start;
+                    font-size: 0.85rem;
+                    button {
+                        @include button-reset();
+                        @include transition();
+                        display: inline-block;
+                        position: absolute;
+                        top: 5px;
+                        left: -15px;
+                        &:hover {
+                            @include transition();
+                            top: 2px;
+                            left: -16px;
+                            font-size: 1.1rem;
+                        }
+                    }
+                    .stars {
+                        display: flex !important;
+                        column-gap: 3px;
+                        font-size: 1.45rem;
+                        // color: #ffd900;
+                        color: $flavor-color;
+                        opacity: 0.7;
+                    }
+                }
+                .like {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    row-gap: 7px;
+                    align-items: center;
+                    font-size: 0.85rem;
+
+                    button {
+                        @include button-reset();
+                        @include transition();
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        row-gap: 5px;
+                        font-size: 0.85rem;
+                        color: $main-light;
+                        svg {
+                            font-size: 1.5rem;
+                        }
+                        &:hover {
+                            @include transition();
+                            color: $main-color;
+                            svg {
+                                color: #bd4646;
+                            }
+                        }
+                    }
+                    button.active {
+                        color: #bd4646;
+                        &:hover {
+                            @include transition();
+                            color: $bg-main;
+                            svg {
+                                color: #291d2b;
+                            }
+                        }
+                    }
+                }
+            }
+            button.submit {
+                @include button-reset();
+                @include transition();
+                padding: 7px 10px;
+                border-radius: 5px;
+                color: $main-color;
+                border: 3px solid $bg-main;
+                background-color: $bg-lighter;
+                letter-spacing: 0.25rem;
+                opacity: 0.6;
+                align-self: flex-end;
+                &:hover {
+                    @include transition();
+                    opacity: 1;
+                }
+            }
+        }
+
+        .heading {
+            width: 5%;
+            font-size: 0.8rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+
+            svg {
+                font-size: 1.8rem;
+                color: hsla(0, 0%, 100%, 0.5);
+                &:hover {
+                    color: $main-color;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .focused {
+        @include transition();
+        height: 85%;
+        .review-form {
+            .body {
+                height: 100%;
+                textarea {
+                    height: 100%;
                 }
             }
         }
